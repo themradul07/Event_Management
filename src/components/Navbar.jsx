@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div className='w-full  bg-white sticky  '>
+    <div className='w-full  bg-white sticky '>
         <div className='w-full max-w-[1240px]  mx-auto h-[60px] flex justify-between px-4 items-center'>
         <div className='font-bold'>
            BIET HUB

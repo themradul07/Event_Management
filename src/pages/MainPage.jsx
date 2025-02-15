@@ -1,15 +1,33 @@
 import React from 'react'
-import Testimonial2 from './Testimonial2'
-import Questions from './Question'
-import Footer from './Footer'
+import Testimonial2 from '../components/Testimonial2'
+import Questions from '../components/Question'
+import Footer from '../components/Footer'
+import Background from '../components/ui/background'
+import { Link } from 'react-router-dom'
 
 const MainPage = () => {
     return (
         <div className='max-w-[100vw] overflow-hidden'>
 
+            <Background bgfrom={"from-violet-500"} bgto={"to-purple-400"}>
+                <div className='text-7xl font-bold text-white tracking-widest'>BIET<span className='font-light'>HUB</span></div>
+                <div className='max-w-[550px] text-center text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam labore reprehenderit architecto a nostrum. Est magni quas dolor ex quos veniam quae inventore.</div>
+
+                <Link to='council' className='cursor-pointer z-10 px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
+                    <div className='flex gap-3'>
+                        Explore Events
+                        {/* <button className='px-4 py-2 border-2 rounded-full text-white'>
+              SIGN IN
+              </button> */}
+
+                    </div>
+                </Link>
+
+            </Background>
+
 
             {/* main page */}
-            <div className='background-box w-full h-[80vh] opacity-75 flex justify-center items-center flex-col gap-10'>
+            {/* <div className='background-box w-full h-[80vh] opacity-75 flex justify-center items-center flex-col gap-10'>
                 <div className='text-7xl font-bold text-white'>BIET<span className='font-light'>HUB</span></div>
                 <div className='max-w-[550px] text-center text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam labore reprehenderit architecto a nostrum. Est magni quas dolor ex quos veniam quae inventore.</div>
 
@@ -17,12 +35,10 @@ const MainPage = () => {
                     <button className='px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
                         Explore Events
                     </button>
-                    {/* <button className='px-4 py-2 border-2 rounded-full text-white'>
-              SIGN IN
-            </button> */}
+                   
 
                 </div>
-            </div>
+            </div> */}
             <div className='h-[1px] bg-black w-full'></div>
 
 
@@ -167,14 +183,14 @@ const MainPage = () => {
             {/* page 4 */}
             <div className='min-h-[95vh] h-fit'>
 
-            <Testimonial2 />
+                <Testimonial2 />
             </div>
 
             {/* faq */}
             <Questions />
 
-            {/* Footer */}
-            <Footer />
+            {/* Footer
+            <Footer /> */}
 
 
 
