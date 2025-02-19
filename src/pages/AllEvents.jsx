@@ -1,6 +1,5 @@
 import React from 'react'
-import Background from '../components/ui/background'
-import CardsSwiper from '../components/cardsSwiper'
+
 import Card from '../components/Card'
 
 const AllEvents = () => {
