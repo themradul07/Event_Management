@@ -6,6 +6,9 @@ import './App.css'
 import Secondpage from './pages/Secondpage'
 import Footer from './components/Footer'
 import { Routes, Route } from "react-router-dom";
+import AllEvents from './pages/AllEvents'
+import AboutUs from './pages/AboutUs'
+
 
 const App = () => {
   return (
@@ -24,9 +27,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage/>} />
           <Route path="council" element={<Secondpage />}>
-
-
           </Route>
+          <Route path="events" element={<AllEvents/>}>
+          </Route>
+          <Route path="aboutus" element={<AboutUs />}>
+          </Route>
+
+
         </Routes>
         <Footer />
 

@@ -14,7 +14,7 @@ const Card = () => {
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
             </div>
 
-            <div className='min-h-[300px] min-w-[95%] bg-green-300 rounded-md '>
+            <div className='min-h-[300px] min-w-[95%] bg-gray-300 rounded-md '>
 
             </div>
 

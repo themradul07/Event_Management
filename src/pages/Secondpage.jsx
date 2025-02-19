@@ -4,6 +4,7 @@ import Background from '../components/ui/background'
 import { InfiniteSlider } from '../components/ui/Infinitesliding'
 import Card from '../components/ui/Card'
 import { CarouselCard } from '../components/ui/CarouselCard'
+import EventCard from '../components/EventCard'
 
 const Secondpage = () => {
     return (
@@ -92,7 +93,7 @@ const Secondpage = () => {
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt necessitatibus sequi nobis atque veniam doloribus!
                     </div> */}
 
-                    <div className='min-w-[55%] w-full bg-amber-200 max-h-[400px] object-contain overflow-hidden flex items-center justify-center'>
+                    <div className='min-w-[55%] w-full  max-h-[400px] object-contain overflow-hidden flex items-center justify-center'>
                         <CarouselCard/>
                     </div>
 
@@ -109,12 +110,15 @@ const Secondpage = () => {
                 </div>
 
                 <div className='rounded-full w-[200px] h-[200px] bg-blue-400'>
+                    <img src="./CsaPresident.png" className='w-full h-full rounded-full'  alt="" />
 
                 </div>
 
                 <div className='max-w-[220px] text-center'>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nemo!
                 </div>
+
+                {/* <EventCard date={10} type={'Event'} month={'AUG'} title={"dfklsdf fsd fsdf sdf sdf sdf sdffg fgdfgdfgdf fgdggdf"}/> */}
 
                     
                 

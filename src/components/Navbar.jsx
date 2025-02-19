@@ -1,16 +1,27 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
     <div className='w-full  bg-white sticky '>
         <div className='w-full max-w-[1240px]  mx-auto h-[60px] flex justify-between px-4 items-center'>
-        <div className='font-bold'>
+        <div className='font-bold flex justify-center items-center '>
+            <div>
+                <img src="/Biet_Hub.jpeg" className='h-[40px] object-contain w-[40px] ' alt="" />
+            </div>
+            <div>
+
            BIET HUB
+            </div>
         </div>
         <div>
             <ul className='flex gap-8'>
+                <Link to={'/'}>
                 <li>Home</li>
+                </Link>
+                <Link to={'aboutus'}>
                 <li>About Us</li>
+                </Link>
             </ul>
         </div>
         <div className='w-[30%] '>
