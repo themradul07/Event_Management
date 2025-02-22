@@ -8,13 +8,13 @@ const testimonialList = [
 	{
 		color: "red",
 		author: {
-			fullName: "Akshay Kumar",
+			fullName: "Ramesh Kumar",
 			picture: "https://cdn.easyfrontend.com/pictures/users/user3.jpg",
 			designation: "Founder / CEO",
 		},
 		rating: 3.5,
 		description:
-			"Assumenda non repellendus distinctio nihil dicta sapiente, quibusdam maiores, illum at, aliquid blanditiis eligendi qui.",
+			"Being part of the innovation cell opened up numerous opportunities for me to work on exciting projects.",
 	},
 	{
 		color: "blue",
@@ -25,18 +25,18 @@ const testimonialList = [
 		},
 		rating: 3.5,
 		description:
-			"Assumenda non repellendus distinctio nihil dicta sapiente, quibusdam maiores, illum at, aliquid blanditiis eligendi qui.",
+			"The events and workshops organized through BIET Hub have helped me develop valuable skills and expand my professional network.",
 	},
 	{
 		color: "yellow",
 		author: {
-			fullName: "Arjun Kapur",
+			fullName: "Arjun Singh",
 			picture: "https://cdn.easyfrontend.com/pictures/users/user11.jpg",
 			designation: "Founder / CEO",
 		},
 		rating: 3.5,
 		description:
-			"Assumenda non repellendus distinctio nihil dicta sapiente, quibusdam maiores, illum at, aliquid blanditiis eligendi qui.",
+			"BIET Hub has transformed how we collaborate and learn. The platform makes it easy to stay connected with all academic activities.",
 	},
 ];
 
@@ -110,12 +110,8 @@ const Testimonial2 = () => {
 				<div className="flex justify-center md:mb-6">
 					<div className="sm:max-w-lg text-center">
 						<h2 className="font-semibold text-3xl mb-6">
-							COMMUNITY REVIEWS
+							WHAT STUDENTS SAYS
 						</h2>
-						<p className="font-light">
-							It’s easier to reach your savings goals when you have the right
-							savings account. Take a look and find the right one for you!
-						</p>
 					</div>
 				</div>
 

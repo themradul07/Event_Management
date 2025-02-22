@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = ({title, description, img , category, mon , date,  time , medium, venue}) => {
   return (
-    <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer " onclick="window.location.href='/event/validation-customer-problem-fit'">
+    <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer " onClick="window.location.href='/event/validation-customer-problem-fit'">
                         <div className="aspect-w-16 h-[280px]">
                             <img src={img} className="object-fill w-full h-full" alt="Customer Validation Event" />
                         </div>

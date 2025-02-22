@@ -3,9 +3,10 @@ import './back.css'
 
 const Background = ({children , bgfrom , bgto}) => {
   return (
-    <div className={`wrapper flex justify-center items-center h-[90vh] bg-gradient-to-br  ${bgfrom} ${bgto} relative overflow-hidden`}>
-      <div className="container text-center">
-        <h1 className=" font-light text-white transition-transform duration-1000 ease-in-out flex justify-center items-center w-full h-full flex-col gap-12">
+    <div className={`wrapper flex justify items-center h-[80vh] bg-gradient-to-br  relative overflow-hidden `}>
+      <img src="./frontgradient.png" className="absolute opacity-70" alt="" />
+      <div className="container text-center z-10 text-purple-900">
+        <h1 className=" font-light transition-transform duration-1000 ease-in-out flex justify-center items-center w-full h-full flex-col gap-12">
           {children}
         </h1>
       </div>
@@ -24,7 +25,7 @@ const Background = ({children , bgfrom , bgto}) => {
         ].map((bubble, index) => (
           <li
             key={index}
-            className={`absolute list-none ${bubble.size} bg-white/15 bottom-[-160px] animate-floating ${bubble.left}`}
+            className={`absolute list-none ${bubble.size} bg-pink-200 bottom-[-160px] animate-floating ${bubble.left}`}
             style={{ animationDelay: bubble.delay, animationDuration: bubble.duration }}
           ></li>
         ))}

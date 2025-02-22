@@ -19,10 +19,14 @@ app.use(cors({
 
 
 // Getting Events
-app.get('/', isLoggedIn , async (req, res) => {
-    // isLoggedIn()
+app.get('/',  async (req, res) => {
+    try{
     let allevnt = await eventModel.find({});
     res.json(allevnt);
+    }
+    catch{
+        res.redirect("http://localhost:5173/");
+    }
 });
 
 // Posting Events
@@ -102,21 +106,35 @@ app.post('/login', async (req, res) => {
 
 // logout an account
 app.get('/logout', (req, res) => {
-    res.cookie("token", "")
-    res.json("success");
+    res.cookie("token", "", { 
+        expires: new Date(0),  // Expire immediately
+        httpOnly: true, 
+        secure: true,  // Use secure cookies in production (HTTPS)
+        sameSite: "Strict" 
+    });
+    res.json({ message: "Logged out successfully" });
 });
+
 
 // get navbar
 app.get('/getNavbar', (req, res) => {
-    let token = req.cookies;
-    var decoded = jwt.verify(token, 'shhhhh');
-console.log(decoded.foo) // bar 
-    // res.send(data);
-    res.send("done");
+    let token = req.cookies.token;  // Extract the token from the cookies
+
+    if (!token) {
+        return res.status(401).json({ value: "Unauthorized: No token provided" ,value: false });
+    }
+
+    try {
+        var decoded = jwt.verify(token, 'shhhhh');  // Verify the token
+        console.log(decoded.foo);
+        res.json({ message: "Token verified", data: decoded , value :true });
+    } catch (err) {
+        res.status(403).json({ error: "Forbidden: Invalid token", value: false });
+    }
 });
 
 function isLoggedIn(req , res, next){
-    if(req.cookies.token === "") res.redirect("Done")
+    if(!req.cookies.token) res.redirect("http://localhost:5173/login")
     else{
         jwt.verify(req.cookies.token,'shhhhh' );
         

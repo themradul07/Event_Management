@@ -7,241 +7,116 @@ import { Link } from 'react-router-dom'
 
 const MainPage = () => {
     return (
-        <div className='max-w-[100vw] overflow-hidden'>
+        <div className='max-w-[100vw]'>
 
-            <Background bgfrom={"from-violet-500"} bgto={"to-purple-400"}>
-                <div className='text-7xl font-bold text-white tracking-widest'>BIET<span className='font-light'>HUB</span></div>
-                <div className='max-w-[550px] text-center text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam labore reprehenderit architecto a nostrum. Est magni quas dolor ex quos veniam quae inventore.</div>
+<div className='relative overflow-x-hidden'>
 
-                <Link to='events' className=' z-10 px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
-                    <div className='flex gap-3'>
-                        Explore Events
-                        {/* <button className='px-4 py-2 border-2 rounded-full text-white'>
-              SIGN IN
-              </button> */}
+            <Background bgfrom={"from-violet-500"} bgto={"to-purple-400"} >
 
-                    </div>
-                </Link>
+                
+
+                
+
+                    <div className='text-9xl font-bold tracking-wide'>BIET HUB</div>
+                    <div className='max-w-[750px] text-cente '>BIET HUB is an interactive and engaging platform designed to bring together students,clubs and committees under one unified digital space.It serves as a central hub for discoverin events,participating in student-driven initiatives and fostering a collaborative environment..</div>
+
+                    
+                
+                
+                
 
             </Background>
+</div>
 
 
             {/* main page */}
             {/* <div className='background-box w-full h-[80vh] opacity-75 flex justify-center items-center flex-col gap-10'>
                 <div className='text-7xl font-bold text-white'>BIET<span className='font-light'>HUB</span></div>
                 <div className='max-w-[550px] text-center text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam labore reprehenderit architecto a nostrum. Est magni quas dolor ex quos veniam quae inventore.</div>
-
+                
                 <div className='flex gap-3'>
-                    <button className='px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
-                        Explore Events
-                    </button>
-                   
-
+                <button className='px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
+                Explore Events
+                </button>
+                
+                
                 </div>
             </div> */}
-            <div className='h-[1px] bg-black w-full'></div>
+           
 
 
 
-            {/* page2 - upcoming events */}
-            <div className='w-full h-fit flex flex-col gap-5 items-center mt-5 mb-5'>
-                <div className='font-semibold text-3xl mt-12'>
-                    UPCOMING EVENTS
-                </div>
-                <div className='max-w-[450px] font-light text-center'>
-                    Lorem ipsum dolor consectetur adipisicing elit. Labore deserunt quaerat possimus dolor non doloribus, rem ipsum. Non!
-                </div>
 
-
-                <div className='flex mt-8 gap-8  '>
-
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            {/* page3  -  our events */}
-            <div className='w-full h-fit  flex flex-col gap-5 items-center mt-5 mb-5'>
-                <div className='font-semibold text-3xl mt-12'>
-                    OUR EVENTS
-                </div>
-                <div className='max-w-[450px] font-light text-center'>
-                    Lorem ipsum dolor consectetur adipisicing deserunt quaerat possimus dolor non doloribus, rem ipsum. Non!
-                </div>
-
-
-                <div className='flex mt-8 gap-8 '>
-
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./white-tree.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./events-ele.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
-                        <div className='flex w-full justify-center items-center'>
-                            <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
-                        </div>
-
-                        <div className='text-xl font-bold mt-6 '>
-                            EVENTS
-                        </div>
-                        <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
-                        </div>
-
-                        <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-            </div>
             {/* page3  - modified our council */}
-            <div className='w-full h-fit  flex flex-col gap-5 items-center mt-5 mb-5'>
+            <div className='z-10 w-full h-fit  flex flex-col gap-5 items-center mt-5 mb-5 relative'>
+                <div className='absolute -top-36  mx-auto z-10 h-full  '> 
+                    <img className='w-[220px]' src="./illustration.png" alt="" />
+                </div>
                 <div className='font-semibold text-3xl mt-12'>
-                    OUR COUNCILS
+                    OUR COMMITTEES
                 </div>
                 <div className='max-w-[450px] font-light text-center'>
-                    Lorem ipsum dolor consectetur adipisicing deserunt quaerat possimus dolor non doloribus, rem ipsum. Non!
+                    To ensure smooth event execution and maximum engagement, our structure consists of Councils, Clubs, and Cells, each playing a vital role in fostering creativity, innovation, and efficient event management.
                 </div>
 
 
-                <div className='flex mt-8 gap-8 '>
+                <div className='flex mt-8 gap-8 relative '>
 
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
+                    <div className='relative justify-between z-10 bg-pink-50 w-[300px] border p-2  h-[480px] rounded-md flex flex-col gap-4 items-center' >
                         <div className='flex w-full justify-center items-center'>
                             <img src="./white-tree.png" alt="" className='absolute -top-10 text-center ' />
                         </div>
 
                         <div className='text-xl font-bold mt-6 '>
-                            Cultural SubCouncil
+                            CLUBS
                         </div>
                         <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
+                            Clubs provide students with a creative and recreational outlet to explore and develop their skills in specialized areas.
                         </div>
 
                         <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-                            <img src="" alt="" />
+                            <img className='w-full h-full object-fit' src="./club.jpg" alt="" />
                         </div>
 
                     </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
+                    <div className='relative justify-between z-10 bg-pink-50 w-[300px] border p-2  h-[480px] rounded-md flex flex-col gap-4 items-center' >
                         <div className='flex w-full justify-center items-center'>
-                            <img src="./events-ele.png" alt="" className='absolute -top-10 text-center ' />
+                            <img src="./white-tree.png" alt="" className='absolute -top-10 text-center ' />
                         </div>
 
                         <div className='text-xl font-bold mt-6 '>
-                            EVENTS
+                            COUNCILS
                         </div>
                         <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
+                            Councils oversee and organize large-scale events across various categories, ensuring seamless coordination and leadership
                         </div>
 
                         <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
+                            <img className='w-full h-full object-fit' src="./council.jpg" alt="" />
                         </div>
 
                     </div>
-                    <div className='relative  w-[300px] border  h-[400px] rounded-md flex flex-col gap-4 items-center' >
+                    <div className='relative justify-between z-10 bg-pink-50 w-[300px] border p-2  h-[480px] rounded-md flex flex-col gap-4 items-center' >
                         <div className='flex w-full justify-center items-center'>
-                            <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
+                            <img src="./white-tree.png" alt="" className='absolute -top-10 text-center ' />
                         </div>
 
                         <div className='text-xl font-bold mt-6 '>
-                            EVENTS
+                            CELLS
                         </div>
                         <div className='text-sm font-light text-center '>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
+                            Cells focus on key operational areas, ensuring that events are well-organized and efficiently executed.
                         </div>
 
                         <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
+                            <img className='w-full h-full object-fit' src="./cell.jpg" alt="" />
                         </div>
 
                     </div>
+
+                    <img src="./gradient.png" className='absolute bottom-0 w-full h-full' alt="" />
+
+
 
 
                 </div>
@@ -256,7 +131,7 @@ const MainPage = () => {
             {/* faq */}
             <Questions />
 
-            
+
 
 
 
