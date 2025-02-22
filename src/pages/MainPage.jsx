@@ -182,7 +182,7 @@ const MainPage = () => {
             {/* page3  - modified our council */}
             <div className='w-full h-fit  flex flex-col gap-5 items-center mt-5 mb-5'>
                 <div className='font-semibold text-3xl mt-12'>
-                    OUR EVENTS
+                    OUR COUNCILS
                 </div>
                 <div className='max-w-[450px] font-light text-center'>
                     Lorem ipsum dolor consectetur adipisicing deserunt quaerat possimus dolor non doloribus, rem ipsum. Non!
@@ -197,14 +197,14 @@ const MainPage = () => {
                         </div>
 
                         <div className='text-xl font-bold mt-6 '>
-                            EVENTS
+                            Cultural SubCouncil
                         </div>
                         <div className='text-sm font-light text-center '>
                             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam quidem inventore dolorem.
                         </div>
 
                         <div className='min-h-[60%] min-w-[95%] bg-green-300'>
-
+                            <img src="" alt="" />
                         </div>
 
                     </div>
@@ -256,8 +256,7 @@ const MainPage = () => {
             {/* faq */}
             <Questions />
 
-            {/* Footer
-            <Footer /> */}
+            
 
 
 
