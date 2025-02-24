@@ -19,7 +19,7 @@ app.use(cors({
 
 
 // Getting Events
-app.get('/',  async (req, res) => {
+app.get('/', async (req, res) => {
     try{
     let allevnt = await eventModel.find({});
     res.json(allevnt);
@@ -36,9 +36,25 @@ app.post('/', async (req, res) => {
 });
 
 // Getting particular event details
-app.get('/event/:title', async (req, res) => {
+app.get('/event/:title', isLoggedIn , async (req, res) => {
     let Event = await eventModel.find({ title: req.params.title });
     res.json(Event);
+})
+
+// Register for event
+app.post('/register/:title', isLoggedIn, async (req, res) => {
+    console.log(req.params.title);
+    let user = await UserModel.findOne({_id: req.user.id});
+    let event = await eventModel.findOne({title : req.params.title })
+    console.log(user);
+    console.log(event);
+    user.participated.push({title : event.title})
+    user.save();
+    event.participants.push({name : user.name , id: user.id })
+    event.save();
+    
+    res.status(200).json({task : true})
+
 })
 
 // creating an account
@@ -60,10 +76,10 @@ app.get('/event/:title', async (req, res) => {
 // });
 app.post('/create', async (req, res) => {
     try {
-        let { name, email, password } = req.body;
+        let { name, email, password , isAdmin } = req.body;
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(password, salt);
-        let createdUser = await UserModel.create({ name, email, password: hash });
+        let createdUser = await UserModel.create({ name, email, isAdmin ,password: hash});
         res.json({ ok: true, message: "User created successfully!" });
     } catch (error) {
         console.error("Error creating user:", error);
@@ -117,7 +133,7 @@ app.get('/logout', (req, res) => {
 
 
 // get navbar
-app.get('/getNavbar', (req, res) => {
+app.get('/getNavbar', async (req, res) => {
     let token = req.cookies.token;  // Extract the token from the cookies
 
     if (!token) {
@@ -126,20 +142,40 @@ app.get('/getNavbar', (req, res) => {
 
     try {
         var decoded = jwt.verify(token, 'shhhhh');  // Verify the token
-        console.log(decoded.foo);
-        res.json({ message: "Token verified", data: decoded , value :true });
+        console.log(decoded);
+        let user = await UserModel.findOne({_id: decoded.id});
+        console.log(user);
+        res.json({ data: decoded , value :true , isAdmin: user.isAdmin });
     } catch (err) {
         res.status(403).json({ error: "Forbidden: Invalid token", value: false });
     }
 });
 
-function isLoggedIn(req , res, next){
-    if(!req.cookies.token) res.redirect("http://localhost:5173/login")
-    else{
-        jwt.verify(req.cookies.token,'shhhhh' );
-        
+// get profile
+app.get('/profile', isLoggedIn , async (req, res) => {
+    
+    try {
+        let user = await UserModel.findOne({_id: req.user.id});
+        console.log(user);
+        res.json(user);
+    } catch (err) {
+        res.status(403).json({ error: "Forbidden: Invalid token", value: false });
     }
-    next();
+});
+
+function isLoggedIn(req, res, next) {
+    if (!req.cookies?.token) {
+        // console.log(req)
+        return res.json({ value : true }); // Return to stop execution
+    }
+
+    try {
+        req.user = jwt.verify(req.cookies.token, "shhhhh");
+        console.log(req.user);
+        next(); // Call next() only if verification succeeds
+    } catch (err) {
+        return res.redirect("http://localhost:5173/login"); // Redirect if token is invalid
+    }
 }
 
 app.listen(3000, (e) => {

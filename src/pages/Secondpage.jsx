@@ -5,22 +5,19 @@ import { InfiniteSlider } from '../components/ui/Infinitesliding'
 import Card from '../components/ui/Card'
 import { CarouselCard } from '../components/ui/CarouselCard'
 import EventCard from '../components/EventCard'
+import { Link } from 'react-router-dom'
 
-const Secondpage = ({title ,photos}) => {
+const Secondpage = ({title ,photos , desc}) => {
     return (
         <div>
 
 
             {/* Background */}
-            <Background bgfrom={"from-pink-500"} bgto={"to-purple-400"} >
-                <div className='pin text-7xl font-bold text-white tracking-wide max-w-[800px]'>{title}</div>
-                <div className='max-w-[550px] text-center text-white'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam labore reprehenderit architecto a nostrum. Est magni quas dolor ex quos veniam quae inventore.</div>
+            <Background bgfrom={"from-pink-500"} bgto={"to-purple-400"}  >
+                <div className='pin text-7xl font-bold tracking-wide max-w-[800px]'>{title}</div>
+                <div className='max-w-[550px] text-center'>{desc}</div>
 
-                <div className='flex gap-3'>
-                    <button className='px-4 py-2 border-2 cursor-pointer rounded-full text-white'>
-                        Explore Events
-                    </button>
-                 </div>
+                
 
             </Background>
 
@@ -63,13 +60,14 @@ const Secondpage = ({title ,photos}) => {
                 </div>
 
                 <div className='flex mt-8 gap-8 flex-wrap justify-center items-center gap-y-12  '>
-
-                    <Card/>
-                    <Card/>
-                    <Card/>
-                    <Card/>
-                    <Card/>
-                    <Card/>          
+                    <a href='/council/lit'>
+                    <Card title={"Literary Subcouncil "} image={"./litsub.jpeg"} />
+                    </a>
+                    <Card title={"Cultural Subcoucil"} image={"./council.jpg"}/>
+                    <Card title={"Sports Subcouncil"} image={"./spsub.png"}/>
+                    <Card title={"Photography and Fine Arts Subcouncil"} image={"./11.png"}/>
+                    <Card title={"Yoga Subcouncil"} image={"./yogasub.png"}/>
+                    <Card title={"Hobbies Subcouncil"} image={"./hobbysub.png"}/>
                     
 
 
@@ -111,7 +109,7 @@ const Secondpage = ({title ,photos}) => {
                 </div>
 
                 <div className='max-w-[220px] text-center'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, nemo!
+                    President
                 </div>
 
                 {/* <EventCard date={10} type={'Event'} month={'AUG'} title={"dfklsdf fsd fsdf sdf sdf sdf sdffg fgdfgdfgdf fgdggdf"}/> */}

@@ -19,23 +19,18 @@ export default function LoginPage() {
 
     return (
       <div className="flex min-h-screen w-full">
-        {/* Left Panel */}
-        <div className="flex flex-1 flex-col items-center justify-center text-center bg-gray-100 p-8">
-          <img
-            src="./loginCartoon.jpg"
-            alt="Character Image"
-            className="max-w-[70%] mb-8"
-          />
-          <h1 className="text-3xl font-bold text-gray-900">BIET HUB</h1>
-          <p className="text-gray-700 mt-2">BRINGING CLUBS, COUNCILS, AND EVENTS TOGETHER</p>
-        </div>
-  
-        {/* Right Panel */}
-        <div className="flex flex-1 items-center justify-center bg-white p-8">
-          { !isLogin &&  <Login fun={switcher} isLogin={isLogin} />}
-          {isLogin && <CreateAccont fun={switcher} />}
-        </div>
+      {/* Left Panel */}
+      <div className="flex flex-1 flex-col items-center justify-center text-center bg-gray-100 p-8 ">
+        <img src="./loginCartoon.jpg" alt="Character Image" className="max-w-[70%] mb-8" />
+        <h1 className="text-3xl font-bold text-gray-900">BIET HUB</h1>
+        <p className="text-gray-700 mt-2">BRINGING CLUBS, COUNCILS, AND EVENTS TOGETHER</p>
       </div>
+
+      {/* Right Panel */}
+      <div className="flex flex-1 items-center justify-center bg-white p-8">
+        {isLogin ? <Login fun={switcher} /> : <CreateAccont fun={switcher} />}
+      </div>
+    </div>
     );
   }
   

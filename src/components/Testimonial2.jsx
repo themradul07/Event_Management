@@ -8,7 +8,7 @@ const testimonialList = [
 	{
 		color: "red",
 		author: {
-			fullName: "Ramesh Kumar",
+			fullName: "Rolly Kumar",
 			picture: "https://cdn.easyfrontend.com/pictures/users/user3.jpg",
 			designation: "Founder / CEO",
 		},
@@ -19,7 +19,7 @@ const testimonialList = [
 	{
 		color: "blue",
 		author: {
-			fullName: "Raima Sen",
+			fullName: "Abhay Sen",
 			picture: "https://cdn.easyfrontend.com/pictures/users/user25.jpg",
 			designation: "Founder / CEO",
 		},
@@ -30,7 +30,7 @@ const testimonialList = [
 	{
 		color: "yellow",
 		author: {
-			fullName: "Arjun Singh",
+			fullName: "Raima Singh",
 			picture: "https://cdn.easyfrontend.com/pictures/users/user11.jpg",
 			designation: "Founder / CEO",
 		},

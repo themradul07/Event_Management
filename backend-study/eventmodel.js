@@ -12,6 +12,7 @@ const eventSchema = mongoose.Schema({
     time: String,
     medium: String,
     venue: String,
+    participants: [],
 
 });
 

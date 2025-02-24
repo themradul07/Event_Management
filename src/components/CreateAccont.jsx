@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 const CreateAccont = ({ fun }) => {
 
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", isAdmin: false });
     const navigate = useNavigate(); // Hook for redirection
 
     const handleChange = (e) => {
@@ -14,6 +14,7 @@ const CreateAccont = ({ fun }) => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+      
       try {
           const response = await fetch("http://localhost:3000/create", {
               method: "POST",
@@ -86,6 +87,21 @@ const CreateAccont = ({ fun }) => {
             required
             className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
+          <div className='flex w-fit items-center justify-center h-[40px]'>
+
+          {/* <input onChange={handleChange}
+            type="checkbox"
+            name="isAdmin"
+            value={true}
+            
+            
+            
+            className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          <label className="block font-medium text-gray-700 mb-1" htmlFor="isAdmin">
+            Admin
+          </label> */}
+            </div>
 
           {/* <div className="flex justify-end mb-4">
         <a href="#" className="text-purple-600 text-sm hover:underline">
