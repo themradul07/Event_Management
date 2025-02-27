@@ -1,8 +1,45 @@
 import React from 'react'
+import { useState ,useEffect } from 'react';
 
 const Card = ({title, description, img , category, mon , date,  time , medium, venue}) => {
+    // const datemodify = date.split('T')[0].split('-')[2];
+    const [sdate, setsdate] = useState("");
+    const [Smonth, setSmonth] = useState("");
+
+    useEffect( () => {
+        let months = ['JAN' , 'FEB', 'MAR' , 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+        setsdate(()=>{
+            try{
+             let mod = date.split('T')[0].split('-')[2];
+            
+             return mod;
+            }
+            catch{
+                return date;
+            }
+        })
+        setSmonth(()=>{
+            try{
+             let mod = date.split('T')[0].split('-')[1];
+            //  console.log("Hello");
+            console.log(title)
+             console.log(months[mod-1]);
+             return months[mod-1];
+            }
+            catch{
+                console.log(title);
+                console.log("Error pe error ho raha !!!!!")
+                return mon;
+            }
+            
+        })
+      
+    }, [])
+    
+   
   return (
-    <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer max-w-72 h-[480px]" onClick={() => window.location.href='/event/validation-customer-problem-fit'}>
+    <div className="bg-gray-100 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer w-72 h-[480px]" onClick={() => window.location.href='/event/validation-customer-problem-fit'}>
             <div className="w-full h-[180px]">
                 <img src={img} className="object-cover w-full h-full" alt="Customer Validation Event" />
             </div>
@@ -13,8 +50,8 @@ const Card = ({title, description, img , category, mon , date,  time , medium, v
                             <i className="fas fa-users mr-1"></i>{category}
                         </span>
                         <div className="text-right">
-                            <div className="text-sm font-semibold text-purple-500">{mon}</div>
-                            <div className="text-2xl font-bold text-gray-900">{date}</div>
+                            <div className="text-sm font-semibold text-purple-500">{Smonth}</div>
+                            <div className="text-2xl font-bold text-gray-900">{sdate}</div>
                         </div>
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1 truncate">{title}</h3>

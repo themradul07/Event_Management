@@ -10,7 +10,6 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
 
-
     const getNavbar = async () => {
         try {
             let response = await fetch("http://localhost:3000/getNavbar", {
@@ -21,11 +20,8 @@ const Navbar = () => {
             console.log(res);
             if (!res) navigate('/login');
 
-            // Assuming backend sends { isLoggedIn: true/false }
             setIsLogin(res.value);
-            if (res.isAdmin) {
-                setIsAdmin(true);
-            }
+            setIsAdmin(res.isAdmin || false); // Ensure isAdmin resets properly
         } catch (error) {
             console.error("Error fetching navbar data:", error);
             navigate('/login');
@@ -33,7 +29,6 @@ const Navbar = () => {
     };
 
     const navbarchanger = async () => {
-
         try {
             let response = await fetch("http://localhost:3000/logout", {
                 credentials: "include",
@@ -42,25 +37,18 @@ const Navbar = () => {
             let res = await response.json();
             console.log(res);
 
-            // Assuming backend sends { isLoggedIn: true/false }
-            setIsLogin(res.value);
+            setIsLogin(false); // Reset login state
+            setIsAdmin(false); // Reset admin state
             toast.success("Logout Successful");
-            getNavbar();
             navigate('/');
         } catch (error) {
-
+            console.error("Error logging out:", error);
         }
-
-
-    }
-
+    };
 
     useEffect(() => {
         getNavbar();
-    }, []); // Runs only once when the component mounts
-    useEffect(() => {
-        getNavbar();
-    }, [IsLogin]); // Runs only once when the component mounts
+    }, []);
 
     return (
         <div className='w-full bg-white sticky z-40 shadow-md'>
@@ -70,21 +58,18 @@ const Navbar = () => {
                     <div className='text-purple-900 ml-2'>BIETHUB</div>
                 </div>
                 
-                {/* Desktop Menu */}
                 <div className='hidden md:flex md:gap-4 lg:gap-6 text-md'>
                     <Link to={'/'}>Home</Link>
                     <Link to={'/events'}>Events</Link>
-                    <a href={"/Members.pdf"}>Committees</a>
+                    <a href={'/Members.pdf'}>Committees</a>
                     <Link to={'/dashboard'}>Profile</Link>
                     <Link to={'/aboutus'}>About Us</Link>
                 </div>
                 
-                {/* Mobile Menu Button */}
                 <div className='md:hidden cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
                 </div>
 
-                {/* Authentication & Admin Actions */}
                 <div className='hidden md:flex gap-3'>
                     {!IsLogin ? (
                         <Link to={'/login'}>
@@ -93,13 +78,12 @@ const Navbar = () => {
                     ) : (
                         <button onClick={navbarchanger} className='px-4 py-1 rounded-full bg-purple-900 text-white'>Logout</button>
                     )}
-                    {isAdmin && (
+                    {IsLogin && isAdmin && (
                         <Link to={'/create'} className='px-4 py-1 rounded-full bg-purple-900 text-white'>Create Event</Link>
                     )}
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             {menuOpen && (
                 <div className='md:hidden bg-white w-full flex flex-col items-center py-4 gap-4 shadow-md'>
                     <Link to={'/'} onClick={() => setMenuOpen(false)}>Home</Link>
@@ -114,7 +98,7 @@ const Navbar = () => {
                     ) : (
                         <button onClick={navbarchanger} className='px-4 py-1 rounded-full bg-purple-900 text-white'>Logout</button>
                     )}
-                    {isAdmin && (
+                    {IsLogin && isAdmin && (
                         <Link to={'/create'} onClick={() => setMenuOpen(false)} className='px-4 py-1 rounded-full bg-purple-900 text-white'>Create Event</Link>
                     )}
                 </div>

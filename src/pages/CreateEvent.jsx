@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 
 export default function CreateEventForm() {
   const [formData, setFormData] = useState({
@@ -20,6 +20,15 @@ export default function CreateEventForm() {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+
+  const [minDate, setMinDate] = useState("");
+
+  useEffect(() => {
+    
+    const today = new Date().toISOString().split("T")[0];
+    setMinDate(today);
+    console.log(today.split('-')[2]);
+  }, []);
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -68,7 +77,7 @@ export default function CreateEventForm() {
           <hr />
         </h2>
 
-        <form method="post" action={"http://localhost:3000/"} className="space-y-4">
+        <form method="post" action={"http://localhost:3000/"} className="space-y-4" enctype="multipart/form-data">
           <label className="">Title</label>
           <input type="text" name="title" required className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 
@@ -76,13 +85,10 @@ export default function CreateEventForm() {
           <textarea name="description" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 
           <label className="">Image</label>
-          <input name="img" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
+          <input name="img" type="file" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 
           <label className="">Date</label>
-          <input name="date" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
-
-          <label className="">Month</label>
-          <input name="month" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
+          <input name="date" type="date" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} min={minDate} />
 
           <label className="">Venue</label>
           <input name="venue" required className="resize-none w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
@@ -107,7 +113,7 @@ export default function CreateEventForm() {
 
 
           <label className="">Time (hh:mm)</label>
-          <input type="text" name="time" className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
+          <input type="time" name="time" className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 
 
           <label className="">Category</label>

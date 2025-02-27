@@ -4,8 +4,8 @@ import './back.css'
 const Background = ({children , bgfrom , bgto}) => {
   return (
     <div className={`wrapper flex justify items-center h-[80vh] bg-gradient-to-br  relative overflow-hidden `}>
-      <img src="./frontgradient.png" className="absolute opacity-70" alt="" />
-      <div className="container text-center z-10 text-purple-900">
+      <img src="./frontgradient.png" className="absolute w-full object-cover opacity-70" alt="" />
+      <div className="container text-center mx-auto z-10 text-purple-900">
         <h1 className=" font-light transition-transform duration-1000 ease-in-out flex justify-center items-center w-full h-full flex-col gap-12">
           {children}
         </h1>

@@ -4,41 +4,53 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 const CreateAccont = ({ fun }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [AdminKey, setAdminKey] = useState("");
 
   const [formData, setFormData] = useState({ name: "", email: "", password: "", isAdmin: false });
-    const navigate = useNavigate(); // Hook for redirection
+  const navigate = useNavigate(); // Hook for redirection
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      
-      try {
-          const response = await fetch("http://localhost:3000/create", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formData),
-              credentials: "include",
-          });
-  
-          const data = await response.json(); // Always parse JSON
-          console.log(data);
-  
-          if (response.ok) {
-              toast("User Created Successfully"  );
-              fun();
-              navigate("/login"); // Redirect to home/dashboard
-          } else {
-              alert(data.message || "Error creating user");
-          }
-      } catch (error) {
-          console.error("Error:", error);
-          alert("Something went wrong");
-      }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (formData.isAdmin && AdminKey != "Hackathon") {
+        return toast.error("wrong admin key")
+      }
+
+       let verification = await fetch(`https://verifyemail.vercel.app/api/${formData.email}`);
+      if(verification.error){
+        toast.error("Incorrect Email ");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+
+      const data = await response.json(); // Always parse JSON
+      console.log(data);
+
+      if (response.ok) {
+        toast("User Created Successfully");
+        fun();
+        navigate("/login"); // Redirect to home/dashboard
+      } else {
+        alert(data.message || "Error creating user");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
+    }
+  };
+
 
   return (
     <div>
@@ -62,7 +74,7 @@ const CreateAccont = ({ fun }) => {
           <input onChange={handleChange}
             type="text"
             name='name'
-            placeholder="Enter your email"
+            placeholder="Enter your name"
             required
             className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
@@ -87,21 +99,38 @@ const CreateAccont = ({ fun }) => {
             required
             className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
-          <div className='flex w-fit items-center justify-center h-[40px]'>
+          <div className='flex w-fit gap-2 items-center justify-center h-[40px]'>
 
-          {/* <input onChange={handleChange}
-            type="checkbox"
-            name="isAdmin"
-            value={true}
-            
-            
-            
-            className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            <input onChange={handleChange}
+              onClick={() => {
+
+                setIsAdmin(!isAdmin);
+              }}
+              type="checkbox"
+              name="isAdmin"
+              value={true}
+
+
+
             />
-          <label className="block font-medium text-gray-700 mb-1" htmlFor="isAdmin">
-            Admin
-          </label> */}
-            </div>
+            <label className="block font-medium text-gray-700 mb-1" htmlFor="isAdmin">
+              Admin
+            </label>
+          </div>
+          {isAdmin &&
+            <input onChange={(e) => {
+              setAdminKey(e.target.value);
+            }}
+
+              type="text"
+              name="adminKey"
+              placeholder='Admin Key'
+
+
+
+              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />}
+
 
           {/* <div className="flex justify-end mb-4">
         <a href="#" className="text-purple-600 text-sm hover:underline">

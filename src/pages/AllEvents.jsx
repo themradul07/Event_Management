@@ -10,14 +10,17 @@ const AllEvents = () => {
     const [Events, setEvents] = useState([]);
     const [activeButton, setActiveButton] = useState("");
 
+
+
     const getEvents = async () => {
         try {
             const fetchingevents = await fetch("http://localhost:3000/", { credentials: "include" });
             const fetchevents = await fetchingevents.json();
-            console.log(fetchevents);
+            
+            // console.log(fetchevents[5].date.split('T')[0].split('-')[2]);
             setAllEvents(fetchevents);
             setEvents(fetchevents);
-            console.log(AllEvents);
+            // console.log(AllEvents);
         } catch (error) {
             console.log(error);
         }
@@ -36,7 +39,8 @@ const AllEvents = () => {
 
     
     useEffect(() => {
-        getEvents();
+         getEvents();
+
 
     }, []);
 
@@ -125,11 +129,11 @@ const AllEvents = () => {
 
                 <div 
                 // className='flex flex-wrap gap-4 w-full mx-auto text-center justify-center items-center max-w-[1540px]'
-                className="grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"
+                className="max-w-[1540px] gap-2 grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300"
                 >
 
-                    {AllEvents.reverse().map((e) => {
-                        return <div className='w-full flex justify-center'> <a href={`/${e.title}`}>
+                    {AllEvents.reverse().map((e, index) => {
+                        return <div key={index} className='w-full flex justify-center'> <a href={`/${e.title}`}>
                             <Card img={e.img} category={e.category} mon={e.month} title={e.title} date={e.date} description={e.description} time={e.time} medium={e.medium} venue={e.venue} />
                         </a>
                         </div>

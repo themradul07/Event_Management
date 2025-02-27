@@ -7,7 +7,7 @@ import { CarouselCard } from '../components/ui/CarouselCard'
 import EventCard from '../components/EventCard'
 import { Link } from 'react-router-dom'
 
-const Secondpage = ({title ,photos , desc}) => {
+const Councilpage = ({title , desc}) => {
     return (
         <div>
 
@@ -15,7 +15,7 @@ const Secondpage = ({title ,photos , desc}) => {
             {/* Background */}
             <Background bgfrom={"from-pink-500"} bgto={"to-purple-400"}  >
                 <div className='pin text-7xl font-bold tracking-wide max-w-[800px]'>{title}</div>
-                <div className='max-w-[550px] text-center'>{desc}</div>
+                <div className='max-w-[550px] text-center'>The Council of Student Activity enhances campus life by organizing events, fostering leadership, and encouraging student engagement. It provides a platform for creativity, collaboration, and personal growth, ensuring a dynamic and inclusive college experience.</div>
 
                 
 
@@ -49,7 +49,7 @@ const Secondpage = ({title ,photos , desc}) => {
             
             {/* slider */}
             <div className='p-5'>
-            <InfiniteSlider photos ={photos}/>
+            <InfiniteSlider photos ={["./lscLogo.jpg", "pfaLogo.jpg", "sportLogo.jpg", "cscLogo.jpg"]}/>
 
             </div>
 
@@ -88,7 +88,7 @@ const Secondpage = ({title ,photos , desc}) => {
                     </div> */}
 
                     <div className='min-w-[55%] w-full  max-h-[400px] object-contain overflow-hidden flex items-center justify-center'>
-                        <CarouselCard/>
+                        <CarouselCard images={["Slider2.jpg", "Slider3.jpg", "Slider1.png"]}/>
                     </div>
 
                 </div>
@@ -127,4 +127,4 @@ const Secondpage = ({title ,photos , desc}) => {
     )
 }
 
-export default Secondpage
+export default Councilpage

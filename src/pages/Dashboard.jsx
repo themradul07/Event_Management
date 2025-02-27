@@ -62,7 +62,7 @@ const Dashboard = () => {
                 {["Total Events", "Certificates Earned", "Points Earned"].map((title, index) => (
                   <div key={index} className="bg-[#A855F7]/30 rounded-lg p-4 hover:bg-[#7E22CE] transition-all">
                     <p className="text-white/80 text-sm">{title}</p>
-                    <p className="text-white text-2xl font-bold mt-1">{[NoEvents, 8, 450][index]}</p>
+                    <p className="text-white text-2xl font-bold mt-1">{[NoEvents, NoEvents, NoEvents*100][index]}</p>
                   </div>
                 ))}
               </div>
