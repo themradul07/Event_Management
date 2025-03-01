@@ -53,6 +53,9 @@ const Verification_email_template = `<!DOCTYPE html>
 </body>
 </html>`
 
+import { configDotenv } from "dotenv"
+
+
 const Welcome_email_template =`<!DOCTYPE html>
 <html>
 <head>
@@ -159,7 +162,7 @@ import nodemailer from "nodemailer"
     secure: false, // true for port 465, false for other ports
     auth: {
         user: "mradulgandhi18@gmail.com",
-        pass: "vtzd lfpt wiwx ywsp",
+        pass: process.env.GOOGLE_KEY ,
     },
 });
 
