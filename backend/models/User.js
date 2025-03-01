@@ -8,7 +8,13 @@ const userSchema = mongoose.Schema({
     password: String,
     participated: [],
     isAdmin : Boolean ,
-    // age: Number,
-})
+    isVerified:{
+        type: Boolean,
+        default:false
+    },
+    verificationCode:{
+        type:String
+    },
+},{timestamps:true});
 
 module.exports = mongoose.model("user", userSchema);

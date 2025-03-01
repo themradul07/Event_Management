@@ -1,6 +1,6 @@
 const express = require('express');
-const eventModel = require('./eventmodel');
-const UserModel = require('./models/EventUser');
+const eventModel = require('./models/eventmodel');
+const UserModel = require('./models/User');
 const app = express();
 const cors = require('cors')
 const bcrypt = require('bcrypt');
@@ -12,6 +12,7 @@ const crypto = require('crypto');
 const path = require('path');
 const upload = require('./config/multerconfig');
 const { title } = require('process');
+const { SendVerificationCode , WelcomeEmail, EventAlert} = require('./middleware/Email')
 
 
 app.use(cookieParser());
@@ -25,7 +26,81 @@ app.use(express.static(path.join(__dirname,"public")))
 
 
 
+app.post('/auth/register' , async (req, res) => {
+    try {
+        const { email, password, name , isAdmin } = req.body;
 
+        // // Check if user already exists
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: "User already exists. Please login." });
+        }
+
+        // Hash the password before saving
+        const salt =10;
+        const hashedPassword = await bcrypt.hash(password, salt );
+        // console.log(req.body)
+        const verificationCode = Math.floor(100000 + Math.random()*900000).toString();
+
+
+        // Create new user
+        const user = new UserModel({
+            email,
+            password : hashedPassword,  // Store the hashed 
+            name,
+            verificationCode,
+            isAdmin,
+        });
+
+        await user.save();
+        SendVerificationCode(email , verificationCode , name );
+
+        return res.status(201).json({ ok: true, message: "User registered successfully!" });
+
+    } catch (error) {
+        return res.status(500).json({ ok: false, message: "Server bhai Error", error: error.message });
+    }
+});
+
+app.post('/auth/verifyemail', async(req ,res) =>{
+    try {
+
+        const {code} = req.body
+        const user = await UserModel.findOne({
+            verificationCode: code
+        })
+        if(!user){
+            return res.status(400).json({ok:false, message:"Invalid or Expired Code"})
+        }
+        user.isVerified = true;
+        user.verificationCode = undefined;
+        await user.save();
+
+        await WelcomeEmail(user.email , user.name)
+
+        return res.status(200).json({ok:true, message:"Code Verified Successfully"})
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ok : false , message : "Internal Server Error"})
+        
+    }
+} );
+
+
+
+app.post('/create', async (req, res) => {
+    try {
+        let { name, email, password, isAdmin } = req.body;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hash = await bcrypt.hash(password, salt);
+        let createdUser = await UserModel.create({ name, email, isAdmin, password: hash });
+        res.json({ ok: true, message: "User created successfully!" });
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).json({ ok: false, message: "Error creating user" });
+    }
+});
 
 // Getting Events
 app.get('/', async (req, res) => {
@@ -44,19 +119,18 @@ app.post('/', upload.single('img') ,async (req, res) => {
     req.body.img = `http://localhost:3000/images/upload/${req.file.filename}`;
     
     let evnt = await eventModel.create(req.body);
+    
+    let emails = await UserModel.find({}, "email");
+    await emails.forEach(async e => {
+        await EventAlert(e.email , evnt.title , evnt.date , evnt.venue)
+        
+    });
+    console.log(emails)
     res.redirect("http://localhost:5173/events");
 });
 
-// Posting Images
-app.post('/postimage', upload.single("image") ,async (req, res) => {
-    console.log(req.file);
-    // res
-    res.send(req.body);
-    
-});
-
 // Checking Registered or not
-app.get('/register/:event', isLoggedIn ,async (req, res) => {
+app.get('/register/part/:event', isLoggedIn ,async (req, res) => {
     let user = await UserModel.findOne({_id: req.user.id});
     let eventTitle = req.params.event;
         
@@ -108,18 +182,7 @@ app.post('/register/:title', isLoggedIn, async (req, res) => {
 //     res.send("error ho rha hai")
 //     // console.log(req.body);
 // });
-app.post('/create', async (req, res) => {
-    try {
-        let { name, email, password, isAdmin } = req.body;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hash = await bcrypt.hash(password, salt);
-        let createdUser = await UserModel.create({ name, email, isAdmin, password: hash });
-        res.json({ ok: true, message: "User created successfully!" });
-    } catch (error) {
-        console.error("Error creating user:", error);
-        res.status(500).json({ ok: false, message: "Error creating user" });
-    }
-});
+
 
 // logging an account
 app.post('/login', async (req, res) => {

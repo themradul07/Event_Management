@@ -12,14 +12,17 @@ const EventPage = () => {
     const [isExpired, setIsExpired] = useState(false);
     // const [isParicipated, setIsParicipated] = useState(false);
 
-    const isRegistered = () => {
-        setIsRegister(async() => {
-            let value = await fetch(`http://localhost:3000/register/${id}` , {credentials: "include"});
-            return value.participated;
+    const isRegistered = async () => {
+        
+            console.log("Started")
+            let val = await fetch(`http://localhost:3000/register/part/${id}` , {credentials: "include"});
+            let value = await val.json();
+            console.log("Hello")
+            console.log(value)
+            setIsRegister(value.participated);
           
-        }
-        )
-      
+        
+         
     }
     
 
@@ -71,8 +74,15 @@ const EventPage = () => {
     useEffect(() => {
         getNavbarEvent();
         getdata(id);
+        
         isRegistered();
+
     }, []);
+
+    useEffect(() => {
+      
+    }, [isRegister])
+    
 
     const handleRegister = async () => {
         if (isExpired) {
