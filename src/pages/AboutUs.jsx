@@ -1,5 +1,5 @@
 import React from 'react'
-import Background from '../components/ui/background'
+import Background from '../components/ui/Background'
 
 const AboutUs = () => {
   return (

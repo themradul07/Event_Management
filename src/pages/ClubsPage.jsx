@@ -1,5 +1,5 @@
 import React from 'react'
-import Background from '../components/ui/background'
+import Background from '../components/ui/Background'
 import { InfiniteSlider } from '../components/ui/Infinitesliding'
 import Card from '../components/ui/Card'
 import { CarouselCard } from '../components/ui/CarouselCard'

@@ -2,7 +2,7 @@ import React from 'react'
 import Testimonial2 from '../components/Testimonial2'
 import Questions from '../components/Question'
 import Footer from '../components/Footer'
-import Background from '../components/ui/background'
+import Background from '../components/ui/Background'
 import { Link } from 'react-router-dom'
 
 const MainPage = () => {
