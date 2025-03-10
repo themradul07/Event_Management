@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors({
-    origin: ["https://eventmanagementdevloop.netlify.app", "http://localhost:5173", "https://event-management-er5xo04ut-themradul07s-projects.vercel.app/"],  // Allow frontend origin
+    origin: ["https://eventmanagementdevloop.netlify.app", "http://localhost:5173", "https://event-management-dusky-zeta.vercel.app"],  // Allow frontend origin
     credentials: true                  // Allow sending cookies
 }));
 app.use(express.static(path.join(__dirname,"public")))
