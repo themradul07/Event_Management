@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/Events');
+// mongoose.connect('mongodb+srv://gandhisir80:KvcMYx9UsfbiqD6B@cluster0.tmfcp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+// require('dotenv').config();
+// const uri = process.env.MONGO_URI;
+// const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+// mongoose.connect(uri, clientOptions);
 
 const userSchema = mongoose.Schema({
     name: String,

@@ -1,4 +1,6 @@
 const express = require('express');
+
+const mongoose = require('mongoose');
 const eventModel = require('./models/eventmodel');
 const UserModel = require('./models/User');
 const app = express();
@@ -12,7 +14,13 @@ const crypto = require('crypto');
 const path = require('path');
 const upload = require('./config/multerconfig');
 const { title } = require('process');
-const { SendVerificationCode , WelcomeEmail, EventAlert} = require('./middleware/Email')
+const { SendVerificationCode , WelcomeEmail, EventAlert} = require('./middleware/Email');
+require('dotenv').config();
+
+
+const uri = process.env.MONGO_URI;
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+mongoose.connect(uri, clientOptions);
 
 
 app.use(cookieParser());
@@ -51,6 +59,7 @@ app.post('/auth/register' , async (req, res) => {
             verificationCode,
             isAdmin,
         });
+        console.log("User:", user)
 
         await user.save();
         SendVerificationCode(email , verificationCode , name );

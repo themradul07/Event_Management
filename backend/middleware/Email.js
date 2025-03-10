@@ -155,6 +155,9 @@ const Event_alert_template = `<!DOCTYPE html>
 `
 
 import nodemailer from "nodemailer"
+import dotenv from "dotenv";
+dotenv.config();
+const pass = process.env.EMPASS;
 
  const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -162,7 +165,7 @@ import nodemailer from "nodemailer"
     secure: false, // true for port 465, false for other ports
     auth: {
         user: "mradulgandhi18@gmail.com",
-        pass: process.env.GOOGLE_KEY ,
+        pass: pass ,
     },
 });
 
