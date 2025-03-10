@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors({
-    origin: "http://localhost:5173",  // Allow frontend origin
+    origin: "*",  // Allow frontend origin
     credentials: true                  // Allow sending cookies
 }));
 app.use(express.static(path.join(__dirname,"public")))
