@@ -1,5 +1,5 @@
 import React from "react";
-import './back.css'
+// import './back.css'
 
 const Background = ({children , bgfrom , bgto}) => {
   return (

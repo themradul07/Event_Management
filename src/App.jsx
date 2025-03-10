@@ -7,7 +7,7 @@ import Secondpage from './pages/Councilpage';
 import AllEvents from './pages/AllEvents';
 import AboutUs from './pages/AboutUs';
 import LoginPage from './pages/LoginPage';
-import './App.css';
+// import './App.css';
 import CreateEventForm from './pages/CreateEvent';
 import EventPage from './pages/EventPage';
 // import Real from './pages/Real';
