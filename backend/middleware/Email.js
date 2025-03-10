@@ -156,7 +156,7 @@ const Event_alert_template = `<!DOCTYPE html>
 
 import nodemailer from "nodemailer"
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config
 const pass = process.env.EMPASS;
 
  const transporter = nodemailer.createTransport({

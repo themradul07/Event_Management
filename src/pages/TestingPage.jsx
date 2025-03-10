@@ -3,9 +3,9 @@ import React from 'react'
 const TestingPage = () => {
   return (
     <div>
-      <img src="http://localhost:3000/he.jpg" className='w-fit' alt="" />
+      <img src="https://event-management-7ifl.onrender.com/he.jpg" className='w-fit' alt="" />
 
-      <form action="http://localhost:3000/postimage" method='post' enctype="multipart/form-data" >
+      <form action="https://event-management-7ifl.onrender.com/postimage" method='post' enctype="multipart/form-data" >
         <label htmlFor="img">Give the Image</label>
         <input type="file" name="image" />
         <label htmlFor="name">This is my Name</label>

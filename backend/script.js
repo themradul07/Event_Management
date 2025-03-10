@@ -16,8 +16,6 @@ const upload = require('./config/multerconfig');
 const { title } = require('process');
 const { SendVerificationCode , WelcomeEmail, EventAlert} = require('./middleware/Email');
 require('dotenv').config();
-
-
 const uri = process.env.MONGO_URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 mongoose.connect(uri, clientOptions);
@@ -125,7 +123,7 @@ app.get('/', async (req, res) => {
 // Posting Events
 app.post('/', upload.single('img') ,async (req, res) => {
     
-    req.body.img = `http://localhost:3000/images/upload/${req.file.filename}`;
+    req.body.img = `https://event-management-7ifl.onrender.com//images/upload/${req.file.filename}`;
     
     let evnt = await eventModel.create(req.body);
     
@@ -231,7 +229,7 @@ app.get('/logout', (req, res) => {
     res.cookie("token", "", {
         expires: new Date(0),  // Expire immediately
         httpOnly: true,
-        secure: true,  // Use secure cookies in production (HTTPS)
+        secure: false,  // Use secure cookies in production (HTTPS)
         sameSite: "Strict"
     });
     res.json({ message: "Logged out successfully" });

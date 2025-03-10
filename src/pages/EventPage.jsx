@@ -15,7 +15,7 @@ const EventPage = () => {
     const isRegistered = async () => {
         
             console.log("Started")
-            let val = await fetch(`http://localhost:3000/register/part/${id}` , {credentials: "include"});
+            let val = await fetch(`https://event-management-7ifl.onrender.com/register/part/${id}` , {credentials: "include"});
             let value = await val.json();
             console.log("Hello")
             console.log(value)
@@ -28,7 +28,7 @@ const EventPage = () => {
 
     const getNavbarEvent = async () => {
         try {
-            let response = await fetch("http://localhost:3000/getNavbar", {
+            let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
                 credentials: "include",
             });
             let res = await response.json();
@@ -44,7 +44,7 @@ const EventPage = () => {
     };
 
     const getdata = async (val) => {
-        let data = await fetch(`http://localhost:3000/event/${val}`, {
+        let data = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
             credentials: "include",
         });
         let jsonData = await data.json();
@@ -91,7 +91,7 @@ const EventPage = () => {
         }
         try {
             const response = await fetch(
-                `http://localhost:3000/register/${Data.title}`,
+                `https://event-management-7ifl.onrender.com/register/${Data.title}`,
                 {
                     method: "POST",
                     credentials: "include",

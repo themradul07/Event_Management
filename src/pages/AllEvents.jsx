@@ -14,7 +14,7 @@ const AllEvents = () => {
 
     const getEvents = async () => {
         try {
-            const fetchingevents = await fetch("http://localhost:3000/", { credentials: "include" });
+            const fetchingevents = await fetch("https://event-management-7ifl.onrender.com/", { credentials: "include" });
             const fetchevents = await fetchingevents.json();
             
             // console.log(fetchevents[5].date.split('T')[0].split('-')[2]);

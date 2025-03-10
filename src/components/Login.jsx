@@ -17,7 +17,7 @@ const Login = ({fun}) => {
         // document.cookie = "token=sfdsfdsfdsfdsfdsfdsfdsfsdff; path=/";
 
         try {
-           const response = await fetch("http://localhost:3000/login", {
+           const response = await fetch("https://event-management-7ifl.onrender.com/login", {
     method: "POST",
     body: JSON.stringify(formData),
     headers: { "Content-Type": "application/json" },

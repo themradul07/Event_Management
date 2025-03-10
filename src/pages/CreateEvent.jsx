@@ -40,7 +40,7 @@ export default function CreateEventForm() {
   //   //   e.preventDefault();
 
   //   //   try {
-  //   //     const response = await fetch("http://localhost:3000/", { // FIXED URL
+  //   //     const response = await fetch("https://event-management-7ifl.onrender.com/", { // FIXED URL
   //   //       method: "POST",
   //   //       headers: {
   //   //         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export default function CreateEventForm() {
           <hr />
         </h2>
 
-        <form method="post" action={"http://localhost:3000/"} className="space-y-4" enctype="multipart/form-data">
+        <form method="post" action={"https://event-management-7ifl.onrender.com/"} className="space-y-4" enctype="multipart/form-data">
           <label className="">Title</label>
           <input type="text" name="title" required className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 

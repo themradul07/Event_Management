@@ -41,7 +41,7 @@ const CreateAccont = ({ fun }) => {
     
       
       
-      const response = await fetch("http://localhost:3000/auth/register", {
+      const response = await fetch("https://event-management-7ifl.onrender.com/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -70,7 +70,7 @@ const CreateAccont = ({ fun }) => {
      
       
 
-      const response = await fetch("http://localhost:3000/auth/verifyemail", {
+      const response = await fetch("https://event-management-7ifl.onrender.com/auth/verifyemail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
