@@ -205,12 +205,17 @@ app.post('/login', async (req, res) => {
                 console.log(token);
 
                 // Set cookie with options
+                // res.cookie("token", token, {
+                //     httpOnly: true,   // Prevents JavaScript access (more secure)
+                //     secure: false,    // Set to true in production (requires HTTPS)
+                //     sameSite: "Lax",  // Allows cookies in cross-origin requests with navigation
+                // });
                 res.cookie("token", token, {
                     httpOnly: true,   // Prevents JavaScript access (more secure)
-                    secure: false,    // Set to true in production (requires HTTPS)
-                    sameSite: "Lax",  // Allows cookies in cross-origin requests with navigation
+                    secure: true,     // Ensures cookie is only sent over HTTPS
+                    sameSite: "None", // Allows cross-site cookies (required for third-party cookies)
                 });
-
+                
 
                 return res.status(200).json({ ok: true, message: "Login Successful" });
             } else {
