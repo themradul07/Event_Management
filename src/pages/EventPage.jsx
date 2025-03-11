@@ -139,14 +139,14 @@ const EventPage = () => {
             {/* Event Banner */}
             <div className="relative h-[400px] bg-gradient-to-r from-purple-800 to-purple-400 flex flex-col items-center">
                 <div className="absolute inset-0 bg-black opacity-0"></div>
-                <div className="relative max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-                    <div className="text-white w-2/3 mr-4">
+                <div className="relative max-w-8xl mx-auto p-4 sm:p-6 lg:p-8 h-full flex flex-col-reverse md:flex-row items-center justify-between">
+                    <div className="text-white text-center md:text-left w-2/3 mr-4">
                         <h1 className="text-4xl font-bold mb-4">{Data.title}</h1>
                         <p className="text-xl mb-6">
                             An inter-college literary event where creativity
                             meets expression
                         </p>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex justify-center md:justify-normal items-center space-x-4">
                             <span className="flex items-center">
                                 <i className="fas fa-calendar-alt mr-2"></i>{" "}
                                 {Data.date}
@@ -157,11 +157,12 @@ const EventPage = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="relative w-1/3">
+                    <div className="relative w-full mx-auto text-center md:w-1/3">
                         <img
                             src={Data.img}
+                            // src="/CellsSlider1.jpg"
                             alt={Data.title}
-                            className="rounded-lg shadow-lg object-cover h-[270px] w-full"
+                            className="rounded-lg shadow-lg object-cover h-[40vh] md:h-[270px] text-center mx-auto mt-6 md:mt-0 w-[80vw] md:w-full"
                         />
                     </div>
                 </div>
