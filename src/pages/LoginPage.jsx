@@ -16,7 +16,7 @@ export default function LoginPage() {
 
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-[100vw]">
       {/* Left Panel */}
       <div className="hidden md:flex flex-1 flex-col items-center justify-center text-center bg-gray-100 p-8 md:p-12 lg:p-16">
         <img

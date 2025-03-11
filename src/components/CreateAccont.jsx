@@ -100,7 +100,7 @@ const CreateAccont = ({ fun }) => {
 
   return (
     <div>
-      {isCreate ? <div className="w-[350px] max-h-[90vh] max-w-md">
+      {isCreate ? <div className="w-[350px] max-w-[80vw] max-h-[90vh] ">
         <div className="flex justify-center mb-4">
           <img src="logoQ.jpg" alt="Logo" className="w-36" />
         </div>
@@ -113,7 +113,7 @@ const CreateAccont = ({ fun }) => {
     </button> */}
 
         {/* Account Create Form */}
-        <form onSubmit={handleVerify}>
+        <form onSubmit={handleVerify} className='max-w-[80vw]'>
           <label className="block font-medium text-gray-700 mb-1" htmlFor="otp">
             Enter the OTP
           </label>
@@ -138,7 +138,7 @@ const CreateAccont = ({ fun }) => {
 
 
       </div> :
-        <div className="w-[350px] max-h-[90vh] max-w-md">
+        <div className="w-[350px] max-w-[80vw] max-h-[90vh] ">
           <div className="flex justify-center mb-4">
             <img src="logoQ.jpg" alt="Logo" className="w-36" />
           </div>
@@ -151,7 +151,7 @@ const CreateAccont = ({ fun }) => {
     </button> */}
 
           {/* Account Create Form */}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className='max-w-[80vw]'>
             <label className="block font-medium text-gray-700 mb-1" htmlFor="name">
               Name
             </label>
@@ -183,7 +183,7 @@ const CreateAccont = ({ fun }) => {
               required
               className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
-            <div className='flex w-fit gap-2 items-center justify-center h-[40px]'>
+            <div className='flex max-w-[80vw] w-fit gap-2 items-center justify-center h-[40px]'>
 
               <input onChange={handleChange}
                 onClick={() => {
@@ -212,7 +212,7 @@ const CreateAccont = ({ fun }) => {
 
 
 
-                className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full max-w-[80vw] border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />}
 
 
@@ -224,12 +224,12 @@ const CreateAccont = ({ fun }) => {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700">
+              className="w-full max-w-[80vw] bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700">
               Create Account
             </button>
           </form>
 
-          <p className="text-center text-gray-700 mt-4 text-sm">
+          <p className="text-center max-w-[80vw] text-gray-700 mt-4 text-sm">
             Already Registered? <a onClick={fun} className="text-purple-600 cursor-pointer font-medium hover:underline">Login?</a>
           </p>
         </div>}

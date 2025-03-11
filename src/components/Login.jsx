@@ -47,7 +47,7 @@ const Login = ({fun}) => {
         }
     };
   return (
-    <div><div className="w-[350px] max-w-md">
+    <div><div className="w-[350px] max-w-[80vw]">
     <div className="flex justify-center mb-4">
       <img src="logoQ.jpg" alt="Logo" className="w-36" />
     </div>
@@ -68,7 +68,7 @@ const Login = ({fun}) => {
         name='email'
         placeholder="Enter your email"
         required
-        className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        className="w-full max-w-[80vw] border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
 
       <label className="block font-medium text-gray-700 mb-1" htmlFor="password">
@@ -79,10 +79,10 @@ const Login = ({fun}) => {
         name='password'
         placeholder="Enter your password"
         required
-        className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        className="w-full max-w-[80vw] border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
 
-      <div className="flex justify-end mb-4">
+      <div className="flex max-w-[80vw] justify-end mb-4">
         <a href="#" className="text-purple-600 text-sm hover:underline">
           Forgot Password?
         </a>
@@ -90,13 +90,13 @@ const Login = ({fun}) => {
 
       <button
         type="submit"
-        className="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
+        className="w-full max-w-[80vw] bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700"
       >
         Login
       </button>
     </form>
 
-    <p className="text-center text-gray-700 mt-4 text-sm">
+    <p className="text-center text-gray-700 mt-4 text-sm max-w-[80vw]">
       Not Registered Yet? <a  onClick={fun} className="text-purple-600 font-medium hover:underline">Create an account</a>
     </p>
   </div></div>

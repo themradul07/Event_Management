@@ -48,21 +48,51 @@ const EventPage = () => {
     };
 
     const getdata = async (val) => {
-        let data = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
-            credentials: "include",
-        });
-        // let data = await fetch(`http://localhost:3000/event/${val}`, {
-        //     credentials: "include",
-        // });
-        let jsonData = await data.json();
-        if (jsonData.value) {
-            toast.error("Login First");
-            navigate("/login");
+        try {
+            let response = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
+                credentials: "include",
+            });
+    
+            let jsonData = await response.json();
+    
+            if (jsonData.value) {
+                toast.error("Login First");
+                navigate("/login");
+                return;
+            }
+    
+            // Ensure jsonData[0] exists before modifying
+            if (jsonData.length > 0 && jsonData[0].date) {
+                jsonData[0].date = jsonData[0].date.split('T')[0];
+            }
+    
+            setData(jsonData[0] || {}); // Avoid setting undefined data
+            setParticipantArr(jsonData[0]?.participants || []);
+    
+            console.log(jsonData[0]);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            toast.error("Something went wrong. Please try again.");
         }
-        setData(jsonData[0]);
-        setParticipantArr(jsonData[0].participants);
-        console.log(jsonData[0].participants.indexOf())
     };
+    
+    // const getdata = async (val) => {
+    //     let data = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
+    //         credentials: "include",
+    //     });
+    //     // let data = await fetch(`http://localhost:3000/event/${val}`, {
+    //     //     credentials: "include",
+    //     // });
+    //     let jsonData = await data.json();
+    //     if (jsonData.value) {
+    //         toast.error("Login First");
+    //         navigate("/login");
+    //     }
+    //     setData(jsonData[0]);
+    //     Data.date = Data.date.split('T')[0];
+    //     setParticipantArr(jsonData[0].participants);
+    //     console.log(Data)
+    // };
 
     // Check if the event is expired
     useEffect(() => {
@@ -137,16 +167,16 @@ const EventPage = () => {
     return (
         <main className="">
             {/* Event Banner */}
-            <div className="relative h-[400px] bg-gradient-to-r from-purple-800 to-purple-400 flex flex-col items-center">
-                <div className="absolute inset-0 bg-black opacity-0"></div>
-                <div className="relative max-w-8xl mx-auto p-4 sm:p-6 lg:p-8 h-full flex flex-col-reverse md:flex-row items-center justify-between">
+            <div className="relative h-fit md:h-[400px] bg-gradient-to-r from-purple-800 to-purple-400 flex flex-col items-center">
+                <div className="absolute inset-0 bg-black opacity-0 "></div>
+                <div className="relative max-w-8xl mx-auto p-4 sm:p-6 lg:p-8 h-full flex flex-col md:flex-row items-center justify-between">
                     <div className="text-white text-center md:text-left w-2/3 mr-4">
-                        <h1 className="text-4xl font-bold mb-4">{Data.title}</h1>
-                        <p className="text-xl mb-6">
+                        <h1 className="text-lg  md:text-4xl  font-bold mb-2 mt-2 md:mt-0 md:mb-4">{Data.title}</h1>
+                        <p className="text-sm md:text-xl mb-6">
                             An inter-college literary event where creativity
                             meets expression
                         </p>
-                        <div className="flex justify-center md:justify-normal items-center space-x-4">
+                        <div className="flex flex-col md:flex-row gap-2 justify-center text-sm md:text-lg md:justify-normal items-center space-x-4">
                             <span className="flex items-center">
                                 <i className="fas fa-calendar-alt mr-2"></i>{" "}
                                 {Data.date}
