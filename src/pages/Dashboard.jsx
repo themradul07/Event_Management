@@ -12,6 +12,7 @@ const Dashboard = () => {
     const getdata = async() => {
         try{
         let user = await fetch("https://event-management-7ifl.onrender.com/profile", {credentials: "include"});
+        // let user = await fetch("http://localhost:3000/profile", {credentials: "include"});
         let resData = await user.json();
         console.log(resData.participated);
         setData(resData);

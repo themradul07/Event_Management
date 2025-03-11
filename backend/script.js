@@ -1,40 +1,47 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
 const eventModel = require('./models/eventmodel');
 const UserModel = require('./models/User');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+
 var jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require('path');
 const upload = require('./config/multerconfig');
 const { title } = require('process');
-const { SendVerificationCode , WelcomeEmail, EventAlert} = require('./middleware/Email');
+const { SendVerificationCode, WelcomeEmail, EventAlert } = require('./middleware/Email');
+
 require('dotenv').config();
+
 const uri = process.env.MONGO_URI;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 mongoose.connect(uri, clientOptions);
 
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors({
-    origin: ["https://eventmanagementdevloop.netlify.app", "http://localhost:5173", "https://event-management-dusky-zeta.vercel.app"],  // Allow frontend origin
-    credentials: true                  // Allow sending cookies
-}));
-app.use(express.static(path.join(__dirname,"public")))
+app.use(
+    cors({
+        origin: [
+            "https://eventmanagementdevloop.netlify.app",
+            "http://localhost:5173",
+            "https://event-management-dusky-zeta.vercel.app"
+        ],
+        credentials: true
+    })
+);
 
 
 
-app.post('/auth/register' , async (req, res) => {
+app.use(express.static(path.join(__dirname, "public")));
+
+app.post('/auth/register', async (req, res) => {
     try {
-        const { email, password, name , isAdmin } = req.body;
+        const { email, password, name, isAdmin } = req.body;
 
         // // Check if user already exists
         const existingUser = await UserModel.findOne({ email });
@@ -43,16 +50,16 @@ app.post('/auth/register' , async (req, res) => {
         }
 
         // Hash the password before saving
-        const salt =10;
-        const hashedPassword = await bcrypt.hash(password, salt );
+        const salt = 10;
+        const hashedPassword = await bcrypt.hash(password, salt);
         // console.log(req.body)
-        const verificationCode = Math.floor(100000 + Math.random()*900000).toString();
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
 
         // Create new user
         const user = new UserModel({
             email,
-            password : hashedPassword,  // Store the hashed 
+            password: hashedPassword,  // Store the hashed 
             name,
             verificationCode,
             isAdmin,
@@ -60,7 +67,7 @@ app.post('/auth/register' , async (req, res) => {
         console.log("User:", user)
 
         await user.save();
-        SendVerificationCode(email , verificationCode , name );
+        SendVerificationCode(email, verificationCode, name);
 
         return res.status(201).json({ ok: true, message: "User registered successfully!" });
 
@@ -69,32 +76,30 @@ app.post('/auth/register' , async (req, res) => {
     }
 });
 
-app.post('/auth/verifyemail', async(req ,res) =>{
+app.post('/auth/verifyemail', async (req, res) => {
     try {
 
-        const {code} = req.body
+        const { code } = req.body
         const user = await UserModel.findOne({
             verificationCode: code
         })
-        if(!user){
-            return res.status(400).json({ok:false, message:"Invalid or Expired Code"})
+        if (!user) {
+            return res.status(400).json({ ok: false, message: "Invalid or Expired Code" })
         }
         user.isVerified = true;
         user.verificationCode = undefined;
         await user.save();
 
-        await WelcomeEmail(user.email , user.name)
+        await WelcomeEmail(user.email, user.name)
 
-        return res.status(200).json({ok:true, message:"Code Verified Successfully"})
-        
+        return res.status(200).json({ ok: true, message: "Code Verified Successfully" })
+
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ok : false , message : "Internal Server Error"})
-        
+        return res.status(500).json({ ok: false, message: "Internal Server Error" })
+
     }
-} );
-
-
+});
 
 app.post('/create', async (req, res) => {
     try {
@@ -116,38 +121,25 @@ app.get('/', async (req, res) => {
         res.json(allevnt);
     }
     catch {
-        res.redirect("http://localhost:5173/");
+        res.redirect("https://eventmanagementdevloop.netlify.app/");
     }
 });
 
-// Posting Events
-app.post('/', upload.single('img') ,async (req, res) => {
-    
-    req.body.img = `https://event-management-7ifl.onrender.com//images/upload/${req.file.filename}`;
-    
-    let evnt = await eventModel.create(req.body);
-    
-    let emails = await UserModel.find({}, "email");
-    await emails.forEach(async e => {
-        await EventAlert(e.email , evnt.title , evnt.date , evnt.venue)
-        
-    });
-    console.log(emails)
-    res.redirect("http://localhost:5173/events");
-});
+var createRoute = require('./routes/createRoute')
+app.use('/create', createRoute);
 
 // Checking Registered or not
-app.get('/register/part/:event', isLoggedIn ,async (req, res) => {
-    let user = await UserModel.findOne({_id: req.user.id});
+app.get('/register/part/:event', isLoggedIn, async (req, res) => {
+    let user = await UserModel.findOne({ _id: req.user.id });
     let eventTitle = req.params.event;
-        
 
-        // Correct way: find the index of the event object
-        let value = user.participated.findIndex(e => e.title === eventTitle);
 
-                
-        res.json({ participated: value !== -1 });
-    
+    // Correct way: find the index of the event object
+    let value = user.participated.findIndex(e => e.title === eventTitle);
+
+
+    res.json({ participated: value !== -1 });
+
 });
 
 // Getting particular event details
@@ -215,7 +207,7 @@ app.post('/login', async (req, res) => {
                     secure: true,     // Ensures cookie is only sent over HTTPS
                     sameSite: "None", // Allows cross-site cookies (required for third-party cookies)
                 });
-                
+
 
                 return res.status(200).json({ ok: true, message: "Login Successful" });
             } else {
@@ -283,7 +275,7 @@ function isLoggedIn(req, res, next) {
         console.log(req.user);
         next(); // Call next() only if verification succeeds
     } catch (err) {
-        return res.redirect("http://localhost:5173/login"); // Redirect if token is invalid
+        return res.redirect("https://eventmanagementdevloop.netlify.app/login"); // Redirect if token is invalid
     }
 }
 
@@ -291,4 +283,3 @@ app.listen(3000, (e) => {
     console.log("listening the app");
 
 });
-

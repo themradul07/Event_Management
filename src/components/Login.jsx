@@ -23,6 +23,12 @@ const Login = ({fun}) => {
     headers: { "Content-Type": "application/json" },
     credentials: "include"   // Important: allows cookies to be sent/received
 });
+//            const response = await fetch("http://localhost:3000/login", {
+//     method: "POST",
+//     body: JSON.stringify(formData),
+//     headers: { "Content-Type": "application/json" },
+//     credentials: "include"   // Important: allows cookies to be sent/received
+// });
 
 
             const data = await response.json(); // Always parse JSON

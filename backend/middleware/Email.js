@@ -53,7 +53,7 @@ const Verification_email_template = `<!DOCTYPE html>
 </body>
 </html>`
 
-import { configDotenv } from "dotenv"
+
 
 
 const Welcome_email_template =`<!DOCTYPE html>
@@ -156,7 +156,7 @@ const Event_alert_template = `<!DOCTYPE html>
 
 import nodemailer from "nodemailer"
 import dotenv from "dotenv";
-dotenv.config
+dotenv.config()
 const pass = process.env.EMPASS;
 
  const transporter = nodemailer.createTransport({

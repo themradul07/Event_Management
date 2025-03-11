@@ -77,7 +77,7 @@ export default function CreateEventForm() {
           <hr />
         </h2>
 
-        <form method="post" action={"https://event-management-7ifl.onrender.com/"} className="space-y-4" enctype="multipart/form-data">
+        <form method="post" action={"https://eventmanagementdevloop.netlify.app/create/event"} className="space-y-4" enctype="multipart/form-data">
           <label className="">Title</label>
           <input type="text" name="title" required className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 

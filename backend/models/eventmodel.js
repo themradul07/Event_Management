@@ -34,7 +34,10 @@ const eventSchema = new mongoose.Schema({
     time: String,
     medium: String,
     venue: String,
-    participants: [String]  // Define type explicitly
+    participants: [{
+        name: String,
+        id: mongoose.Schema.Types.ObjectId, // Assuming 'id' is an ObjectId
+      },]  // Define type explicitly
 });
 
 module.exports = mongoose.model("Event", eventSchema);

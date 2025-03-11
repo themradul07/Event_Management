@@ -16,6 +16,7 @@ const EventPage = () => {
         
             console.log("Started")
             let val = await fetch(`https://event-management-7ifl.onrender.com/register/part/${id}` , {credentials: "include"});
+            // let val = await fetch(`http://localhost/register/part/${id}` , {credentials: "include"});
             let value = await val.json();
             console.log("Hello")
             console.log(value)
@@ -31,6 +32,9 @@ const EventPage = () => {
             let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
                 credentials: "include",
             });
+            // let response = await fetch("http://localhost:3000/getNavbar", {
+            //     credentials: "include",
+            // });
             let res = await response.json();
             
             if (!res) navigate("/login");
@@ -47,6 +51,9 @@ const EventPage = () => {
         let data = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
             credentials: "include",
         });
+        // let data = await fetch(`http://localhost:3000/event/${val}`, {
+        //     credentials: "include",
+        // });
         let jsonData = await data.json();
         if (jsonData.value) {
             toast.error("Login First");
@@ -90,6 +97,17 @@ const EventPage = () => {
             return;
         }
         try {
+            // const response = await fetch(
+            //     `http://localhost:3000/register/${Data.title}`,
+            //     {
+            //         method: "POST",
+            //         credentials: "include",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({ title: Data.title }),
+            //     }
+            // );
             const response = await fetch(
                 `https://event-management-7ifl.onrender.com/register/${Data.title}`,
                 {
