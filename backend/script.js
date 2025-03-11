@@ -224,10 +224,9 @@ app.post('/login', async (req, res) => {
 // logout an account
 app.get('/logout', (req, res) => {
     res.cookie("token", "", {
-        expires: new Date(0),  // Expire immediately
-        httpOnly: true,
-        secure: false,  // Use secure cookies in production (HTTPS)
-        sameSite: "Strict"
+        httpOnly: true,   // Prevents JavaScript access (more secure)
+        secure: true,     // Ensures cookie is only sent over HTTPS
+        sameSite: "None", // Allows cross-site cookies (required for third-party cookies)
     });
     res.json({ message: "Logged out successfully" });
 });
