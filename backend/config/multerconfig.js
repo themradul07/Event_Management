@@ -7,7 +7,7 @@
 // cloudinary.config({
 //     cloud_name: "ddyjj570n",
 //     api_key: "955836172498119",
-//     api_secret: "8_iA5S598M0Ze3k1qjQB-F2F4Lc",
+//     api_secret: 
 //   });
 
 // const uploadDir = './public/images/upload';
