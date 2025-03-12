@@ -14,8 +14,8 @@ const Cellspage = ({title , desc}) => {
 
             {/* Background */}
             <Background bgfrom={"from-pink-500"} bgto={"to-purple-400"}  >
-                <div className='pin text-7xl font-bold tracking-wide max-w-[800px]'>{title}</div>
-                <div className='max-w-[550px] text-center'>BIET Cells is an initiative at Bundelkhand Institute of Engineering and Technology (BIET) that fosters innovation, entrepreneurship, and student-led projects. It provides a platform for students to collaborate, develop skills, and contribute to technological advancements.</div>
+            <div className=' text-4xl   max-w-[80vw] md:max-w-[800px] md:text-7xl'>{title}</div>
+            <div className='max-w-[80vw] md:max-w-[550px]  text-sm md:text-lg text-center'>BIET Cells is an initiative at Bundelkhand Institute of Engineering and Technology (BIET) that fosters innovation, entrepreneurship, and student-led projects. It provides a platform for students to collaborate, develop skills, and contribute to technological advancements.</div>
 
                 
 
@@ -60,13 +60,15 @@ const Cellspage = ({title , desc}) => {
                 </div>
 
                 <div className='flex mt-8 gap-8 flex-wrap justify-center items-center gap-y-12  '>
-                    <a href='/council/lit'>
+                    <a href='/cells/tpc'>
                     <Card title={"Training And Placement Cell "} image={"./TpcLogo.jpg"} />
                     </a>
+                    <a href="/cells/iic">
                     <Card title={"Innovation and Incubation Cell"} image={"./IicLogo.jpg"}/>
+                    </a>
+                    <a href="/cells/alumni">
                     <Card title={"Alumni Association"} image={"./AlumniLogo.jpg"}/>
-                    
-                    
+                    </a>              
 
 
                 </div>     

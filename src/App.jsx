@@ -33,19 +33,43 @@ const App = () => {
       {!hideNavbarAndFooter && <Navbar />}
 
       <Routes>
+        {/* Main Page */}
         <Route path="/" element={<MainPage />} />
+       
+       {/* Basic Auth Routes */}
+        <Route path="login" element={<LoginPage />} />
+        <Route path="create" element={<CreateEventForm />} />
+        <Route path="dashboard" element={<Dashboard />} />
+       
+       {/* Main Page Category Routes */}
         <Route path="council" element={<Councilpage title={"COUNCIL OF STUDENT ACTIVITY"} />} />
         <Route path="cells" element={<Cellspage title={"BIET CELLS"}  />} />
         <Route path="clubs" element={<Clubspage title={"BIET CLUBS"} />} />
         <Route path="events" element={<AllEvents />} />
-        <Route path="aboutus" element={<AboutUs />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="create" element={<CreateEventForm />} />
-        <Route path="/council/lit" element={<LiterarySubCouncil />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="imagetesting" element={<TestingPage />} />
         
+        {/* Council Routes */}
+        <Route path="/council/lit" element={<LiterarySubCouncil q={"Literary"} />} />
+        <Route path="/council/cultural" element={<LiterarySubCouncil q={"cultural"} />} />
+        <Route path="/council/sports" element={<LiterarySubCouncil q={"sports"} />} />
+        <Route path="/council/photography" element={<LiterarySubCouncil q={"photography"} />} />
+        <Route path="/council/yoga" element={<LiterarySubCouncil q={"yoga"} />} />
+        <Route path="/council/hobbies" element={<LiterarySubCouncil q={"hobbies"} />} />
+
+        {/* Clubs Routes */}
+        <Route path='/club/tdl' element={<LiterarySubCouncil q={"tdl"}/>}/>
+        <Route path='/club/mmc' element={<LiterarySubCouncil q={"mmc"}/>}/>
+       
+        {/* Cells Routes */}
+        <Route path='/cells/iic' element={<LiterarySubCouncil q={"iic"}/>}/>
+        <Route path='/cells/tpc' element={<LiterarySubCouncil q={"tpc"}/>}/>
+        <Route path='/cells/alumni' element={<LiterarySubCouncil q={"alumni"}/>}/>
+ 
+        
+
+
         <Route path="/:id" element={<EventPage />} />
+        {/* About us */}
+        <Route path="aboutus" element={<AboutUs />} />
       </Routes>
 
       {!hideNavbarAndFooter && <Footer />}

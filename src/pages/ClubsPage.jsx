@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom'
 
 const Clubspage = ({title , desc}) => {
     return (
-        <div>
+        <div className='max-w-[100vw]'>
 
 
             {/* Background */}
             <Background bgfrom={"from-pink-500"} bgto={"to-purple-400"}  >
-                <div className='pin text-7xl font-bold tracking-wide max-w-[800px]'>{title}</div>
-                <div className='max-w-[550px] text-center'>BIET Clubs is an initiative at Bundelkhand Institute of Engineering and Technology (BIET) that fosters innovation, entrepreneurship, and student-led projects. It provides a platform for students to collaborate, develop skills, and contribute to technological advancements.</div>
+            <div className=' text-4xl   max-w-[80vw] md:max-w-[800px] md:text-7xl'>{title}</div>
+                <div className='max-w-[80vw] md:max-w-[550px]  text-sm md:text-lg text-center'>BIET Clubs is an initiative at Bundelkhand Institute of Engineering and Technology (BIET) that fosters innovation, entrepreneurship, and student-led projects. It provides a platform for students to collaborate, develop skills, and contribute to technological advancements.</div>
 
                 
 
@@ -48,7 +48,7 @@ const Clubspage = ({title , desc}) => {
             
             {/* slider */}
             <div className='p-5'>
-            <InfiniteSlider photos ={["MerceneryLogo.jpg", "TdlLogo.jpg"]}/>
+            <InfiniteSlider photos ={["MerceneryLogo.jpg", "TdlLogo.jpg"]} />
 
             </div>
 
@@ -59,10 +59,12 @@ const Clubspage = ({title , desc}) => {
                 </div>
 
                 <div className='flex mt-8 gap-8 flex-wrap justify-center items-center gap-y-12  '>
-                    <a href='/council/lit'>
+                    <a href='/club/tdl'>
                     <Card title={"Team Drone Learners Club"} image={"./TdlLogo.jpg"} />
                     </a>
+                    <a href="/club/mmc">
                     <Card title={"Mercenery Motorsports Club"} image={"./MerceneryLogo.jpg"}/>
+                    </a>
                     
                     
                     

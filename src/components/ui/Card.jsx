@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = ( { title , desc , image}) => {
     return (
-        <div className='relative  w-[300px] border bg-white shadow p-2  h-[420px] rounded-md flex flex-col gap-4 items-center justify-between' >
+        <div className='relative  w-[300px] border bg-white hover:bg-purple-50 shadow p-2  h-[420px] rounded-md flex flex-col gap-4 items-center justify-between' >
             <div className='flex w-full justify-center items-center'>
                 <img src="./event.png" alt="" className='absolute -top-10 text-center ' />
             </div>

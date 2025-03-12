@@ -11,8 +11,8 @@ const MainPage = () => {
             <div className='relative overflow-x-hidden'>
                 <Background bgfrom='from-violet-500' bgto='to-purple-400'>
                     
-                    <div className='text-6xl md:text-9xl font-bold tracking-wide text-center'>BIET HUB</div>
-                    <div className='max-w-[750px] text-center  px-4 md:px-0 '>
+                    <div className='text-4xl md:text-7xl font-bold tracking-wide text-center'>BIET HUB</div>
+                    <div className='max-w-[80vw] md:max-w-[750px] text-center md:text-lg text-sm  px-4 md:px-0 '>
                         BIET HUB is an interactive and engaging platform designed to bring together students, clubs, and committees under one unified digital space. It serves as a central hub for discovering events, participating in student-driven initiatives, and fostering a collaborative environment.
                     </div>
                 </Background>

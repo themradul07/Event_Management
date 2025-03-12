@@ -120,15 +120,17 @@ export default function CreateEventForm() {
           <select name="category" className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange}>
             <option value="">Select Category</option>
             <option value="Literary">Literary</option>
-            <option value="Photography">Photography</option>
-            <option value="Sports">Sports</option>
+            <option value="photography">Photography</option>
+            <option value="sports">Sports</option>
+            <option value="yoga">Yoga</option>
+            <option value="hobbies">Hobbies</option>
+            <option value="cultural">Cultural</option>
             <option value="Fine Arts">Fine Arts</option>
-            <option value="Cultural">Cultural</option>
-            <option value="TPC">TPC</option>
-            <option value="Alumni Association">Alumni Association</option>
-            <option value="Mercenery Motorsports">Mercenery Motorsports</option>
-            <option value="The Drone Learners Club">The Drone Learners Club</option>
-            <option value="IIC">IIC</option>
+            <option value="tpc">TPC</option>
+            <option value="alumni">Alumni Association</option>
+            <option value="mmc">Mercenery Motorsports</option>
+            <option value="tdl">The Drone Learners Club</option>
+            <option value="iic">IIC</option>
 
           </select>
 
