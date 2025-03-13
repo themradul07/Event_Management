@@ -1,4 +1,4 @@
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function CreateEventForm() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,11 @@ export default function CreateEventForm() {
     venue: "",
     medium: "",
     category: "",
+    isPaid: "",
+    amount:"",
   });
+
+  const [isPaid, setIsPaid] = useState(false)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,45 +28,13 @@ export default function CreateEventForm() {
   const [minDate, setMinDate] = useState("");
 
   useEffect(() => {
-    
+
     const today = new Date().toISOString().split("T")[0];
     setMinDate(today);
     console.log(today.split('-')[2]);
   }, []);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Form Submitted", formData);
-  //   alert("Form Submitted");
 
-
-  //   // const handleSubmit = async (e) => {
-  //   //   e.preventDefault();
-
-  //   //   try {
-  //   //     const response = await fetch("https://event-management-7ifl.onrender.com/", { // FIXED URL
-  //   //       method: "POST",
-  //   //       headers: {
-  //   //         "Content-Type": "application/json",
-  //   //       },
-  //   //       body: JSON.stringify(formData),
-  // {credentials: "include"}
-  //   //     });
-
-  //   //     if (!response.ok) {
-  //   //       throw new Error("Failed to submit form");
-  //   //     }
-
-  //   //     const result = await response.json();
-  //   //     console.log("Form Submitted Successfully", result);
-  //   //     alert("Event created successfully!");
-  //   //   } catch (error) {
-  //   //     console.error("Error submitting form:", error);
-  //   //     alert("Failed to create event. Please try again.");
-  //   //   }
-  //   // };
-  //   // handleSubmit(e);
-  // }
 
 
   return (
@@ -77,7 +49,12 @@ export default function CreateEventForm() {
           <hr />
         </h2>
 
-        <form method="post" action={"https://eventmanagementdevloop.netlify.app/create/event"} className="space-y-4" enctype="multipart/form-data">
+        <form method="post" 
+        // action={"https://eventmanagementdevloop.netlify.app/create/event"} 
+        action={"https://event-management-7ifl.onrender.com/create/event"} 
+        
+        // action={()=>{console.log(formData)}}
+        className="space-y-4" encType="multipart/form-data">
           <label className="">Title</label>
           <input type="text" name="title" required className="w-full p-2 border  rounded focus:ring focus:ring-purple-400" onChange={handleChange} />
 
@@ -133,9 +110,38 @@ export default function CreateEventForm() {
             <option value="iic">IIC</option>
 
           </select>
+          
+          <div className='flex max-w-[80vw] w-fit gap-2 items-center justify-center h-[40px]'>
+
+            <input onChange={handleChange}
+              onClick={() => {
+
+                setIsPaid(!isPaid);
+              }}
+              type="checkbox"
+              name="isPaid"
+              value={true}
 
 
-          <button type="submit" className="w-full bg-purple-600 text-white p-2 rounded hover:bg-purple-700">Create Event</button>
+
+            />
+            <label className="block font-medium text-gray-700 mb-1" htmlFor="isAdmin">
+              Is Paid?
+            </label>
+          </div>
+          {isPaid &&
+            <input onChange={handleChange}
+
+              type="number"
+              name="amount"
+              placeholder='Enter the amount'
+
+
+
+              className="w-full max-w-[80vw] border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />}
+
+          <button type="submit" onSubmit={() => { console.log(formData) }} className="w-full bg-purple-600 text-white p-2 rounded hover:bg-purple-700">Create Event</button>
         </form>
       </div>
     </>

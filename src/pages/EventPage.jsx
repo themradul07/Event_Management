@@ -260,7 +260,7 @@ const EventPage = () => {
                         <div className="bg-white rounded-lg shadow-sm p-6 sticky top-20">
                             <div className="text-center mb-6">
                                 <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
-                                    FREE EVENT
+                                   {Data.isPaid?"Paid":"Free"  }
                                 </span>
                             </div>
 
@@ -274,7 +274,8 @@ const EventPage = () => {
                                     onClick={handleRegister}
                                     disabled={isExpired}
                                 >
-                                    {isExpired
+                                    {Data.isPaid? `Pay Rs.${Data.amount}`:
+                                    isExpired
                                         ? "Registration Closed"
                                         : "Register Now"}
                                 </button>

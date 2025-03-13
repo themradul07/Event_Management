@@ -111,7 +111,7 @@ const LiterarySubCouncil = ({ q }) => {
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Our Team</h2>
             <div className="grid md:grid-cols-4 gap-8">
-              {[
+              {q==="Literary"?[
                 { name: "Ekta Pandey", role: "Officer-In Charge", img: "ek.jpeg" },
                 { name: "Abhishek Pratap Singh (ECE)", role: "Secretary", img: "ab.jpg" },
                 { name: "Anushka Jaiswal (CSE)", role: "Secretary", img: "an.jpg" },
@@ -123,7 +123,20 @@ const LiterarySubCouncil = ({ q }) => {
                   <h3 className="text-xl font-bold mb-1 text-gray-900">{member.name}</h3>
                   <p className="text-gray-600">{member.role}</p>
                 </div>
-              ))}
+              )):[
+                { name: "Person 1", role: "Officer-In Charge", img: "pfp.png" },
+                { name: "Person 2", role: "Secretary", img: "pfp.png" },
+                { name: "Person 3", role: "Secretary", img: "pfp.png" },
+                { name: "Person 4", role: "Joint Secretary", img: "pfp.png" },
+                { name: "Person 5", role: "Joint Secretary", img: "pfp.png" },
+              ].map((member, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-xl p-6 text-center">
+                  <img src={`/${member.img}`} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
+                  <h3 className="text-xl font-bold mb-1 text-gray-900">{member.name}</h3>
+                  <p className="text-gray-600">{member.role}</p>
+                </div>
+              ))
+              }
             </div>
           </div>
         </section>

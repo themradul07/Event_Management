@@ -26,6 +26,8 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
     img: String,
+    isPaid: {type: Boolean, default:false},
+    amount: {type:Number , default:0},
     category: String,
     month: String,
     date: Date,  // Change to Number if storing only day numbers

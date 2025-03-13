@@ -136,7 +136,7 @@ const AllEvents = () => {
 
                         {AllEvents.reverse().map((e, index) => {
                             return <div key={index} className='w-full flex justify-center'> <a href={`/${e.title}`}>
-                                <Card img={e.img} category={e.category} mon={e.month} title={e.title} date={e.date} description={e.description} time={e.time} medium={e.medium} venue={e.venue} />
+                                <Card img={e.img} isPaid={e.isPaid} category={e.category} mon={e.month} title={e.title} date={e.date} description={e.description} time={e.time} medium={e.medium} venue={e.venue} />
                             </a>
                             </div>
 
