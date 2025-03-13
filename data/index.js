@@ -77,3 +77,85 @@ export const Councildata = [
         glimpse : ["5lit.jpg", "4lit.jpg", "5lit.jpg"]
     },
 ];
+
+
+export const policies = [ 
+    `
+    **Privacy Policy**
+
+    **Effective Date:** [Insert Date]
+    
+    Welcome to BIET Hub. Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our website.
+    
+    **1. Information We Collect**
+    - Personal Information: We may collect personal details such as name, email address, and phone number when you register or interact with our services.
+    - Usage Data: We collect data on how you interact with our website, including IP address, browser type, and pages visited.
+    
+    **2. How We Use Your Information**
+    - To provide and maintain our services.
+    - To improve user experience.
+    - To communicate updates, promotions, or important notices.
+    
+    **3. Data Protection**
+    We implement security measures to protect your data, but we cannot guarantee complete security.
+    
+    **4. Third-Party Services**
+    We may use third-party services for analytics, payments, and other functionalities. Their privacy policies govern their use of your data.
+    
+    **5. Changes to This Policy**
+    We may update this policy from time to time. Continued use of our website constitutes acceptance of the updated policy.
+    
+    ---
+    
+    **Terms and Conditions**
+    
+    **Effective Date:** [Insert Date]
+    
+    By accessing BIET Hub, you agree to be bound by these Terms and Conditions.
+    
+    **1. Use of Website**
+    - BIET Hub is a user trial platform and does not operate in real-time.
+    - Users must not misuse the platform for unlawful activities.
+    
+    **2. Limitation of Liability**
+    We are not responsible for any losses or damages resulting from the use of our platform.
+    
+    **3. Changes to Terms**
+    We reserve the right to modify these terms at any time.
+    
+    ---
+    
+    **Refund and Cancellation Policy**
+    
+    **Effective Date:** [Insert Date]
+    
+    **1. No Refunds**
+    BIET Hub does not provide any refunds under any circumstances.
+    
+    **2. No Cancellations**
+    Once a service is requested, it cannot be canceled.
+    
+    **3. User Trial Notice**
+    BIET Hub is a trial platform and not an operational service. Any transactions or interactions are for testing purposes only.
+    
+    ---
+    
+    **Shipping and Delivery Policy**
+    
+    **Effective Date:** [Insert Date]
+    
+    **1. No Physical Products**
+    BIET Hub does not offer physical products; hence, no shipping or delivery is involved.
+    
+    **2. Digital Access**
+    Any digital access provided on the platform is for trial purposes only.
+    
+    **3. User Trial Notice**
+    BIET Hub is a user trial platform and does not guarantee the availability of digital services.
+    
+    ---
+    
+    **Contact Us**
+    If you have any questions about our policies, you can contact us at [Insert Contact Information].`
+    
+    ]

@@ -57,7 +57,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className='w-full bg-white sticky z-40 shadow-md'>
+        <div className='w-full bg-white sticky z-40 shadow-md '>
             <div className='w-full max-w-[1240px] mx-auto h-[60px] flex justify-between px-4 items-center'>
                 <div className='font-bold flex items-center'>
                     <img src='/Biet_Hub.jpeg' className='h-[40px] object-contain w-[40px]' alt='BietHub' />
@@ -69,7 +69,7 @@ const Navbar = () => {
                     <Link to={'/events'}>Events</Link>
                     <a href={'/Members.pdf'}>Committees</a>
                     <Link to={'/dashboard'}>Profile</Link>
-                    <Link to={'/aboutus'}>About Us</Link>
+                    <Link to={'/contactus'}>Contact Us</Link>
                 </div>
                 
                 <div className='md:hidden cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>

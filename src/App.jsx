@@ -18,6 +18,7 @@ import Cellspage from './pages/CellsPage';
 import Clubspage from './pages/ClubsPage';
 import Councilpage from './pages/Councilpage';
 import TestingPage from './pages/TestingPage';
+import Policies from './pages/Policies';
 
 const App = () => {
   const location = useLocation();
@@ -65,11 +66,14 @@ const App = () => {
         <Route path='/cells/alumni' element={<LiterarySubCouncil q={"alumni"}/>}/>
  
         
+        {/* About us */}
+        <Route path="refund" element={<Policies q={"refund"}/>} />
+        <Route path="privacy" element={<Policies q={"privacy"}/>} />
+        <Route path="terms" element={<Policies q={"terms"}/>} />
+        <Route path="contactus" element={<AboutUs />} />
 
 
         <Route path="/:id" element={<EventPage />} />
-        {/* About us */}
-        <Route path="aboutus" element={<AboutUs />} />
       </Routes>
 
       {!hideNavbarAndFooter && <Footer />}
