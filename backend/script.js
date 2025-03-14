@@ -150,7 +150,9 @@ app.get('/event/:title', isLoggedIn, async (req, res) => {
 
 // Register for event
 app.post('/register/:title', isLoggedIn, async (req, res) => {
-    console.log(req.params.title);
+    // console.log(req.params.title);
+    console.log(req.body);
+
     let user = await UserModel.findOne({ _id: req.user.id });
     let event = await eventModel.findOne({ title: req.params.title })
     console.log(user);
@@ -163,24 +165,10 @@ app.post('/register/:title', isLoggedIn, async (req, res) => {
     res.status(200).json({ task: true })
 
 })
+const payment_route= require('./routes/paymentRoute');
+app.use('/payforevent' , isLoggedIn , payment_route);
 
-// creating an account
-// app.post('/create', async (req, res) => {
-//     let { name, email, password } = req.body;
-//      bcrypt.genSalt(saltRounds, async function (err, salt) {
-//         bcrypt.hash(password, salt, async (err, hash) => {
-//             let createdUser = await UserModel.create({
-//                 name,
-//                 email,
-//                 password: hash,
-//             });
-//             res.send("done");
 
-//         });
-//     });
-//     res.send("error ho rha hai")
-//     // console.log(req.body);
-// });
 
 
 // logging an account

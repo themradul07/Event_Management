@@ -13,30 +13,18 @@ const EventPage = () => {
     // const [isParicipated, setIsParicipated] = useState(false);
 
     const isRegistered = async () => {
-        
-            console.log("Started")
-            let val = await fetch(`https://event-management-7ifl.onrender.com/register/part/${id}` , {credentials: "include"});
-            // let val = await fetch(`http://localhost/register/part/${id}` , {credentials: "include"});
-            let value = await val.json();
-            console.log("Hello")
-            console.log(value)
-            setIsRegister(value.participated);
-          
-        
-         
+        let val = await fetch(`https://event-management-7ifl.onrender.com/register/part/${id}`, { credentials: "include" });
+        let value = await val.json();
+        setIsRegister(value.participated);
     }
-    
 
     const getNavbarEvent = async () => {
         try {
             let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
                 credentials: "include",
             });
-            // let response = await fetch("http://localhost:3000/getNavbar", {
-            //     credentials: "include",
-            // });
             let res = await response.json();
-            
+            console.log(res);
             if (!res) navigate("/login");
             if (res.isAdmin) {
                 setIsAdmin(true);
@@ -47,52 +35,35 @@ const EventPage = () => {
         }
     };
 
+    // Getting the event data
     const getdata = async (val) => {
         try {
             let response = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
                 credentials: "include",
             });
-    
+
             let jsonData = await response.json();
-    
+
             if (jsonData.value) {
                 toast.error("Login First");
                 navigate("/login");
                 return;
             }
-    
+
             // Ensure jsonData[0] exists before modifying
             if (jsonData.length > 0 && jsonData[0].date) {
                 jsonData[0].date = jsonData[0].date.split('T')[0];
             }
-    
+
             setData(jsonData[0] || {}); // Avoid setting undefined data
             setParticipantArr(jsonData[0]?.participants || []);
-    
-            console.log(jsonData[0]);
+
+            // console.log(jsonData[0]);
         } catch (error) {
             console.error("Error fetching data:", error);
             toast.error("Something went wrong. Please try again.");
         }
     };
-    
-    // const getdata = async (val) => {
-    //     let data = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
-    //         credentials: "include",
-    //     });
-    //     // let data = await fetch(`http://localhost:3000/event/${val}`, {
-    //     //     credentials: "include",
-    //     // });
-    //     let jsonData = await data.json();
-    //     if (jsonData.value) {
-    //         toast.error("Login First");
-    //         navigate("/login");
-    //     }
-    //     setData(jsonData[0]);
-    //     Data.date = Data.date.split('T')[0];
-    //     setParticipantArr(jsonData[0].participants);
-    //     console.log(Data)
-    // };
 
     // Check if the event is expired
     useEffect(() => {
@@ -111,35 +82,31 @@ const EventPage = () => {
     useEffect(() => {
         getNavbarEvent();
         getdata(id);
-        
+
         isRegistered();
 
     }, []);
 
     useEffect(() => {
-      
+
     }, [isRegister])
-    
+
+
+    const [formData, setFormData] = useState({
+        name: "Mradul",
+        email: "gandhisir90@gmail.com",
+        // contact: "9452591194",
+    });
 
     const handleRegister = async () => {
+        console.log("Entered Regitered")
         if (isExpired) {
             toast.error("Event Expired");
             return;
         }
         try {
-            // const response = await fetch(
-            //     `http://localhost:3000/register/${Data.title}`,
-            //     {
-            //         method: "POST",
-            //         credentials: "include",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({ title: Data.title }),
-            //     }
-            // );
             const response = await fetch(
-                `https://event-management-7ifl.onrender.com/register/${Data.title}`,
+                `https://event-management-7ifl.onrender.com/register/${id}`,
                 {
                     method: "POST",
                     credentials: "include",
@@ -149,12 +116,14 @@ const EventPage = () => {
                     body: JSON.stringify({ title: Data.title }),
                 }
             );
+            // console.log(response.body)
 
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
             }
 
             const tempData = await response.json();
+            console.log(tempData);
             if (tempData.task) {
                 setIsRegister(true);
                 toast.success("Registered Successfully!");
@@ -163,6 +132,68 @@ const EventPage = () => {
             console.error("Registration failed:", error.message);
         }
     };
+
+    const handlePayRegister = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("https://event-management-7ifl.onrender.com/payforevent/pay", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(Data),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                const options = {
+                    key: data.key_id,
+                    amount: data.amount,
+                    currency: "INR",
+                    name: data.product_name,
+                    description: data.description,
+                    image: "https://eventmanagementdevloop.netlify.app/Biet_Hub.jpeg",
+                    order_id: data.order_id,
+                    handler: async function (paymentResponse) {
+
+                        console.log("Registering Event");
+                        await handleRegister();
+                        // alert("Payment Succeeded");
+                    },
+                    prefill: {
+                        // contact: data.contact,
+                        name: data.name,
+                        email: data.email,
+                    },
+                    notes: {
+                        description: data.description,
+                    },
+                    theme: {
+                        color: "#7b2abf",
+                    },
+                };
+
+                const razorpay = new window.Razorpay(options);
+                razorpay.on("payment.failed", function () {
+                    alert("Payment Failed");
+                });
+                razorpay.open();
+
+            } else {
+                console.log(data.value);
+                alert(data.msg);
+            }
+        } catch (error) {
+            console.error("Error creating order:", error);
+            alert("Something went wrong!");
+        }
+    };
+
+
+   
 
     return (
         <main className="">
@@ -242,73 +273,72 @@ const EventPage = () => {
                         </main>
                     </div>
                 </div> :
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-                            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                                About the Event
-                            </h2>
-                            <p className="text-gray-600 mb-6">
-                                {Data.description}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Registration Button */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white rounded-lg shadow-sm p-6 sticky top-20">
-                            <div className="text-center mb-6">
-                                <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
-                                   {Data.isPaid?"Paid":"Free"  }
-                                </span>
-                            </div>
-
-                            {!isRegister ? (
-                                <button
-                                    className={`w-full py-3 !rounded-button font-medium mb-4 transition-colors ${
-                                        isExpired
-                                            ? "bg-gray-400 cursor-not-allowed"
-                                            : "bg-[#8257DB] text-white hover:bg-[#9B7BE1]"
-                                    }`}
-                                    onClick={handleRegister}
-                                    disabled={isExpired}
-                                >
-                                    {Data.isPaid? `Pay Rs.${Data.amount}`:
-                                    isExpired
-                                        ? "Registration Closed"
-                                        : "Register Now"}
-                                </button>
-                            ) : (
-                                <button className="w-full bg-red-400 text-white py-3 !rounded-button font-medium mb-4">
-                                    Already Registered
-                                </button>
-                            )}
-
-                            <div className="border-t border-gray-200 pt-4">
-                                <div className="flex items-center justify-between mb-3">
-                                    <span className="text-gray-600">Date</span>
-                                    <span className="font-medium">
-                                        {Data.date}
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-gray-600">Venue</span>
-                                    <span className="font-medium">
-                                        {Data.venue}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="border-t border-gray-200 mt-4 pt-4">
-                                <button className="w-full border border-[#8257DB] text-[#8257DB] py-2 !rounded-button font-medium hover:bg-[#8257DB] hover:text-white transition-colors">
-                                    <i className="fas fa-share-alt mr-2"></i>
-                                    Share Event
-                                </button>
+                <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2">
+                            <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                                <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                                    About the Event
+                                </h2>
+                                <p className="text-gray-600 mb-6">
+                                    {Data.description}
+                                </p>
                             </div>
                         </div>
+
+                        {/* Registration Button */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-20">
+                                <div className="text-center mb-6">
+                                    <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                                        {Data.isPaid ? "Paid" : "Free"}
+                                    </span>
+                                </div>
+
+                                {!isRegister ? (
+                                    <button
+                                        className={`w-full py-3 !rounded-button font-medium mb-4 transition-colors ${isExpired
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-[#8257DB] text-white hover:bg-[#9B7BE1]"
+                                            }`}
+                                        onClick={Data.isPaid? handlePayRegister : handleRegister}
+                                        disabled={isExpired}
+                                    >
+                                        {Data.isPaid ? `Pay Rs.${Data.amount}` :
+                                            isExpired
+                                                ? "Registration Closed"
+                                                : "Register Now"}
+                                    </button>
+                                ) : (
+                                    <button className="w-full bg-red-400 text-white py-3 !rounded-button font-medium mb-4">
+                                        Already Registered
+                                    </button>
+                                )}
+
+                                <div className="border-t border-gray-200 pt-4">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-gray-600">Date</span>
+                                        <span className="font-medium">
+                                            {Data.date}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-600">Venue</span>
+                                        <span className="font-medium">
+                                            {Data.venue}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="border-t border-gray-200 mt-4 pt-4">
+                                    <button className="w-full border border-[#8257DB] text-[#8257DB] py-2 !rounded-button font-medium hover:bg-[#8257DB] hover:text-white transition-colors">
+                                        <i className="fas fa-share-alt mr-2"></i>
+                                        Share Event
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>}
+                </div>}
         </main>
     );
 };

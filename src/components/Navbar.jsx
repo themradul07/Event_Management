@@ -15,7 +15,7 @@ const Navbar = () => {
             let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
                 credentials: "include",
             });
-            // let response = await fetch("http://localhost:3000/getNavbar", {
+            // let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
             //     credentials: "include",
             // });
 
@@ -36,7 +36,7 @@ const Navbar = () => {
             let response = await fetch("https://event-management-7ifl.onrender.com/logout", {
                 credentials: "include",
             });
-            // let response = await fetch("http://localhost:3000/logout", {
+            // let response = await fetch("https://event-management-7ifl.onrender.com/logout", {
             //     credentials: "include",
             // });
 

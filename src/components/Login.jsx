@@ -23,7 +23,7 @@ const Login = ({fun}) => {
     headers: { "Content-Type": "application/json" },
     credentials: "include"   // Important: allows cookies to be sent/received
 });
-//            const response = await fetch("http://localhost:3000/login", {
+//            const response = await fetch("https://event-management-7ifl.onrender.com/login", {
 //     method: "POST",
 //     body: JSON.stringify(formData),
 //     headers: { "Content-Type": "application/json" },
