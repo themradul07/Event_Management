@@ -3,7 +3,7 @@ import Testimonial2 from '../components/Testimonial2'
 import Questions from '../components/Question'
 import Footer from '../components/Footer'
 import Background from '../components/ui/Background'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 const MainPage = () => {
     return (
@@ -14,6 +14,9 @@ const MainPage = () => {
                     <div className='text-4xl md:text-7xl font-bold tracking-wide text-center'>BIET HUB</div>
                     <div className='max-w-[80vw] md:max-w-[750px] text-center md:text-lg text-sm  px-4 md:px-0 '>
                         BIET HUB is an interactive and engaging platform designed to bring together students, clubs, and committees under one unified digital space. It serves as a central hub for discovering events, participating in student-driven initiatives, and fostering a collaborative environment.
+                    </div>
+                    <div>
+                        <a href='/events' className='hover:bg-purple-400 bg-white text-xs md:hidden hover:text-white font-semibold p-4 rounded-full border'>Explore Events</a>
                     </div>
                 </Background>
             </div>
