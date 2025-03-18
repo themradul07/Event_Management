@@ -3,6 +3,7 @@ import React from 'react'
 import Card from '../components/Card'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import CircleLoader from '../components/ui/Loader'
 // import { data } from '../../data'
 
 const AllEvents = () => {
@@ -10,11 +11,13 @@ const AllEvents = () => {
     const [AllEvents, setAllEvents] = useState([]);
     const [Events, setEvents] = useState([]);
     const [activeButton, setActiveButton] = useState("");
+    const [loading, setloading] = useState(false)
 
 
 
     const getEvents = async () => {
         try {
+            setloading(true);
             const fetchingevents = await fetch("https://event-management-7ifl.onrender.com/", { credentials: "include" });
             const fetchevents = await fetchingevents.json();
 
@@ -24,6 +27,9 @@ const AllEvents = () => {
             // console.log(AllEvents);
         } catch (error) {
             console.log(error);
+        }
+        finally{
+            setloading(false)
         }
     };
 
@@ -126,9 +132,15 @@ const AllEvents = () => {
 
 
 
-                {AllEvents.length == 0 && <div className='w-full mx-auto text-center'>No Events to Show</div>}
+                
+                
+                {loading?
+                <div className="flex justify-center py-4">
+                          <CircleLoader />
+                        </div>:
                 <div className='w-full mx-auto'>
 
+                {AllEvents.length == 0 && <div className='w-full mx-auto text-center'>No Events to Show</div>}
                     <div
                         // className='flex flex-wrap gap-4 w-full mx-auto text-center justify-center items-center max-w-[1540px]'
                         className="max-w-[1540px] gap-2 grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300"
@@ -147,7 +159,7 @@ const AllEvents = () => {
 
 
                     </div>
-                </div>
+                </div>}
 
             </main>
 

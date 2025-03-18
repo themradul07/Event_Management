@@ -51,17 +51,24 @@ const CreateAccont = ({ fun }) => {
       const data = await response.json(); // Always parse JSON
       console.log(data);
 
-      setisCreate(true);
-            // Redirect to home/dashboard
+      // Redirect to home/dashboard
       if (response.ok) {
+        console.log("the value of iscreate:" , isCreate);
         toast("OTP Sent Successfully");
+        setisCreate(true);
       } else {
+        
+        
         alert(data.message || "Error creating user");
       }
     } catch (error) {
+      
+      console.log("the value of iscreate:" , isCreate);
       console.error("Error:", error);
       alert("Something went wrong");
-    }
+    }finally{
+      console.log("the value of iscreate:" , isCreate);
+    }  
   };
   const handleVerify = async (e) => {
     e.preventDefault();
