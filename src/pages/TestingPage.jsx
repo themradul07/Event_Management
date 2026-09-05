@@ -1,19 +1,19 @@
-import React from 'react'
+import { API_BASE_URL } from '../utils/api';
 
 const TestingPage = () => {
   return (
     <div>
-      <img src="https://event-management-7ifl.onrender.com/he.jpg" className='w-fit' alt="" />
+      <img src={`${API_BASE_URL}/he.jpg`} className='w-fit' alt="Test" />
 
-      <form action="https://event-management-7ifl.onrender.com/postimage" method='post' enctype="multipart/form-data" >
+      <form action={`${API_BASE_URL}/postimage`} method='post' encType="multipart/form-data">
         <label htmlFor="img">Give the Image</label>
-        <input type="file" name="image" />
+        <input type="file" name="image" id="img" />
         <label htmlFor="name">This is my Name</label>
-        <input type="text" name='name' />
-        <input type="Submit" value={"Submit"} className='p-2 bg-blue-500 text-white' />
+        <input type="text" name='name' id="name" />
+        <input type="submit" value={"Submit"} className='p-2 bg-blue-500 text-white cursor-pointer' />
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default TestingPage
+export default TestingPage;

@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "vapi": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vapi-ai/mcp-server"
+      ],
+      "env": {
+        "VAPI_API_KEY": "97cc3710-9708-4a4d-8a13-1eda37951a5d",
+        "VAPI_TOKEN": "97cc3710-9708-4a4d-8a13-1eda37951a5d"
+      }
+    },
+    "vapi-docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://docs.vapi.ai/_mcp/server"
+      ]
+    }
+  }
+}

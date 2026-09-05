@@ -1,43 +1,42 @@
-import React from "react";
-import { useEffect ,useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { apiFetch } from "../utils/api";
 
 const Dashboard = () => {
-    const [Data, setData] = useState({});
-    const [EventArr, setEventArr] = useState([]);
-    const [NoEvents, setNoEvents] = useState(0);
-    const navigate = useNavigate();
+  const [Data, setData] = useState({});
+  const [EventArr, setEventArr] = useState([]);
+  const [NoEvents, setNoEvents] = useState(0);
+  const navigate = useNavigate();
 
-    const getdata = async() => {
-        try{
-        let user = await fetch("https://event-management-7ifl.onrender.com/profile", {credentials: "include"});
-        // let user = await fetch("https://event-management-7ifl.onrender.com/profile", {credentials: "include"});
-        let resData = await user.json();
-        console.log(resData.participated);
-        setData(resData);
-        setEventArr(resData.participated);
-        setNoEvents(resData.participated.length);
-        }
-        catch{
-            toast.error("Login First !")
-            navigate("/login");
-
-        }
-      
+  const getdata = useCallback(async () => {
+    try {
+      let user = await apiFetch("/profile");
+      let resData = await user.json();
+      if (!user.ok || !resData) {
+        throw new Error("Failed to load profile");
+      }
+      setData(resData);
+      setEventArr(resData.participated || []);
+      setNoEvents((resData.participated || []).length);
     }
+    catch {
+      toast.error("Login First!");
+      navigate("/login");
+    }
+  }, [navigate]);
 
-    useEffect(() => {
-      getdata();
-    }, [])
-    
-    
+  useEffect(() => {
+    getdata();
+  }, [getdata]);
+
+
 
 
   return (
     <div className="bg-white flex justify-center items-center min-h-screen max-w-[1240px] mx-auto w-full">
       <div className="w-full min-h-screen flex perspective-1000 relative bg-white shadow-lg overflow-hidden">
-       
+
 
         {/* Main Content */}
         <main className="flex-1  p-8 transition-transform  w-full">
@@ -63,10 +62,36 @@ const Dashboard = () => {
                 {["Total Events", "Certificates Earned", "Points Earned"].map((title, index) => (
                   <div key={index} className="bg-[#A855F7]/30 rounded-lg p-4 hover:bg-[#7E22CE] transition-all">
                     <p className="text-white/80 text-sm">{title}</p>
-                    <p className="text-white text-2xl font-bold mt-1">{[NoEvents, NoEvents, NoEvents*100][index]}</p>
+                    <p className="text-white text-2xl font-bold mt-1">{[NoEvents, NoEvents, NoEvents * 100][index]}</p>
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Membership Card */}
+            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-lg p-6 mb-8 flex flex-col md:flex-row justify-between items-center hover:shadow-md transition-all">
+              <div className="flex items-center gap-4">
+                <div className="bg-yellow-100 text-yellow-600 p-3 rounded-full text-2xl flex items-center justify-center">
+                  👑
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-amber-900">
+                    {Data.isMember ? 'BIETHUB Premium Member' : 'Upgrade to BIETHUB Premium'}
+                  </h3>
+                  <p className="text-sm text-amber-800/80 mt-1">
+                    {Data.isMember 
+                      ? `Active Plan: ${Data.membershipPlan?.toUpperCase()} (Expires: ${new Date(Data.membershipExpiresAt).toLocaleDateString()})`
+                      : 'Unlock access to exclusive workshops, certifications, and private student events.'
+                    }
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => navigate("/membership")}
+                className="mt-4 md:mt-0 bg-yellow-600 hover:bg-yellow-700 text-white font-medium px-5 py-2 rounded-lg transition-all shadow-sm"
+              >
+                {Data.isMember ? 'Manage Subscription' : 'Upgrade Now'}
+              </button>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm p-6">

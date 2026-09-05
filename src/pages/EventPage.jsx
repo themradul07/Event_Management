@@ -1,47 +1,34 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../utils/api";
 
 const EventPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { IsLogin, isAdmin, isMember } = useAuth();
     const [ParticipantArr, setParticipantArr] = useState([]);
     const [Data, setData] = useState({});
     const [isRegister, setIsRegister] = useState(false);
     const [isExpired, setIsExpired] = useState(false);
-    // const [isParicipated, setIsParicipated] = useState(false);
 
-    const isRegistered = async () => {
-        let val = await fetch(`https://event-management-7ifl.onrender.com/register/part/${id}`, { credentials: "include" });
-        let value = await val.json();
-        setIsRegister(value.participated);
-    }
-
-    const getNavbarEvent = async () => {
+    const isRegistered = useCallback(async () => {
+        if (!id) return;
         try {
-            let response = await fetch("https://event-management-7ifl.onrender.com/getNavbar", {
-                credentials: "include",
-            });
-            let res = await response.json();
-            console.log(res);
-            if (!res) navigate("/login");
-            if (res.isAdmin) {
-                setIsAdmin(true);
-            }
-        } catch (error) {
-            console.error("Error fetching navbar data:", error);
-            navigate("/login");
+            let val = await apiFetch(`/register/part/${id}`);
+            let value = await val.json();
+            setIsRegister(value.participated || false);
+        } catch (err) {
+            console.error("Error checking registration:", err);
         }
-    };
+    }, [id]);
 
     // Getting the event data
-    const getdata = async (val) => {
+    const getdata = useCallback(async (val) => {
+        if (!val) return;
         try {
-            let response = await fetch(`https://event-management-7ifl.onrender.com/event/${val}`, {
-                credentials: "include",
-            });
-
+            let response = await apiFetch(`/event/${val}`);
             let jsonData = await response.json();
 
             if (jsonData.value) {
@@ -50,80 +37,61 @@ const EventPage = () => {
                 return;
             }
 
-            // Ensure jsonData[0] exists before modifying
-            if (jsonData.length > 0 && jsonData[0].date) {
+            if (Array.isArray(jsonData) && jsonData.length > 0 && jsonData[0].date) {
                 jsonData[0].date = jsonData[0].date.split('T')[0];
             }
 
-            setData(jsonData[0] || {}); // Avoid setting undefined data
-            setParticipantArr(jsonData[0]?.participants || []);
-
-            // console.log(jsonData[0]);
+            const eventObj = Array.isArray(jsonData) ? jsonData[0] || {} : jsonData;
+            setData(eventObj);
+            setParticipantArr(eventObj.participants || []);
         } catch (error) {
             console.error("Error fetching data:", error);
             toast.error("Something went wrong. Please try again.");
         }
-    };
+    }, [navigate]);
 
     // Check if the event is expired
     useEffect(() => {
         if (Data.date) {
-            const expiryDate = new Date(Data.date); // Parse event date
-            const today = new Date(); // Current date
+            const expiryDate = new Date(Data.date);
+            const today = new Date();
 
-            // Normalize both dates to only compare YYYY-MM-DD
             expiryDate.setHours(0, 0, 0, 0);
             today.setHours(0, 0, 0, 0);
 
             setIsExpired(expiryDate < today);
         }
-    }, [Data.date]); // Runs when `Data.date` updates
+    }, [Data.date]);
 
     useEffect(() => {
-        getNavbarEvent();
         getdata(id);
-
         isRegistered();
-
-    }, []);
-
-    useEffect(() => {
-
-    }, [isRegister])
-
-
-    const [formData, setFormData] = useState({
-        name: "Mradul",
-        email: "gandhisir90@gmail.com",
-        // contact: "9452591194",
-    });
+    }, [getdata, id, isRegistered]);
 
     const handleRegister = async () => {
-        console.log("Entered Regitered")
+        if (!IsLogin) {
+            toast.error("Please login to register for this event");
+            navigate("/login");
+            return;
+        }
         if (isExpired) {
             toast.error("Event Expired");
             return;
         }
         try {
-            const response = await fetch(
-                `https://event-management-7ifl.onrender.com/register/${id}`,
-                {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ title: Data.title }),
-                }
-            );
-            // console.log(response.body)
+            const response = await apiFetch(`/register/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ title: Data.title }),
+            });
 
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
             }
 
             const tempData = await response.json();
-            console.log(tempData);
             if (tempData.task) {
                 setIsRegister(true);
                 toast.success("Registered Successfully!");
@@ -135,11 +103,15 @@ const EventPage = () => {
 
     const handlePayRegister = async (e) => {
         e.preventDefault();
+        if (!IsLogin) {
+            toast.error("Please login to register for this event");
+            navigate("/login");
+            return;
+        }
 
         try {
-            const response = await fetch("https://event-management-7ifl.onrender.com/payforevent/pay", {
+            const response = await apiFetch("/payforevent/pay", {
                 method: "POST",
-                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -174,6 +146,25 @@ const EventPage = () => {
                     theme: {
                         color: "#7b2abf",
                     },
+                    modal: {
+                        ondismiss: async function () {
+                            try {
+                                await fetch("http://localhost:3000/payforevent/pay/abandon", {
+                                    method: "POST",
+                                    credentials: "include",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        order_id: data.order_id,
+                                        planType: data.product_name || 'event_payment'
+                                    }),
+                                });
+                            } catch (err) {
+                                console.error("Error reporting abandonment:", err);
+                            }
+                        }
+                    }
                 };
 
                 const razorpay = new window.Razorpay(options);
@@ -193,7 +184,7 @@ const EventPage = () => {
     };
 
 
-   
+
 
     return (
         <main className="">
@@ -202,7 +193,14 @@ const EventPage = () => {
                 <div className="absolute inset-0 bg-black opacity-0 "></div>
                 <div className="relative max-w-8xl mx-auto p-4 sm:p-6 lg:p-8 h-full flex flex-col md:flex-row items-center justify-between">
                     <div className="text-white text-center md:text-left w-2/3 mr-4">
-                        <h1 className="text-lg  md:text-4xl  font-bold mb-2 mt-2 md:mt-0 md:mb-4">{Data.title}</h1>
+                        <h1 className="text-lg md:text-4xl font-bold mb-2 mt-2 md:mt-0 md:mb-4 flex flex-wrap items-center justify-center md:justify-start gap-2">
+                            {Data.title}
+                            {Data.isExclusive && (
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300">
+                                    👑 Exclusive Event
+                                </span>
+                            )}
+                        </h1>
                         <p className="text-sm md:text-xl mb-6">
                             An inter-college literary event where creativity
                             meets expression
@@ -296,19 +294,28 @@ const EventPage = () => {
                                 </div>
 
                                 {!isRegister ? (
-                                    <button
-                                        className={`w-full py-3 !rounded-button font-medium mb-4 transition-colors ${isExpired
+                                    Data.isExclusive && !isMember ? (
+                                        <button
+                                            className="w-full py-3 !rounded-button font-semibold mb-4 bg-yellow-500 text-white hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
+                                            onClick={() => navigate("/membership")}
+                                        >
+                                            👑 Exclusive for Members (Join Now)
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className={`w-full py-3 !rounded-button font-medium mb-4 transition-colors ${isExpired
                                                 ? "bg-gray-400 cursor-not-allowed"
                                                 : "bg-[#8257DB] text-white hover:bg-[#9B7BE1]"
-                                            }`}
-                                        onClick={Data.isPaid? handlePayRegister : handleRegister}
-                                        disabled={isExpired}
-                                    >
-                                        {Data.isPaid ? `Pay Rs.${Data.amount}` :
-                                            isExpired
-                                                ? "Registration Closed"
-                                                : "Register Now"}
-                                    </button>
+                                                }`}
+                                            onClick={Data.isPaid ? handlePayRegister : handleRegister}
+                                            disabled={isExpired}
+                                        >
+                                            {Data.isPaid ? `Pay Rs.${Data.amount}` :
+                                                isExpired
+                                                    ? "Registration Closed"
+                                                    : "Register Now"}
+                                        </button>
+                                    )
                                 ) : (
                                     <button className="w-full bg-red-400 text-white py-3 !rounded-button font-medium mb-4">
                                         Already Registered

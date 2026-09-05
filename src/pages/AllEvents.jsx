@@ -1,48 +1,39 @@
-import React from 'react'
-
-import Card from '../components/Card'
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import CircleLoader from '../components/ui/Loader'
-// import { data } from '../../data'
+import Card from '../components/Card';
+import { useState, useEffect } from 'react';
+import CircleLoader from '../components/ui/Loader';
+import { apiFetch } from '../utils/api';
 
 const AllEvents = () => {
 
-    const [AllEvents, setAllEvents] = useState([]);
+    const [allEventsList, setAllEventsList] = useState([]);
     const [Events, setEvents] = useState([]);
     const [activeButton, setActiveButton] = useState("");
-    const [loading, setloading] = useState(false)
-
-
+    const [loading, setloading] = useState(false);
 
     const getEvents = async () => {
         try {
             setloading(true);
-            const fetchingevents = await fetch("https://event-management-7ifl.onrender.com/", { credentials: "include" });
+            const fetchingevents = await apiFetch("/");
             const fetchevents = await fetchingevents.json();
 
-            // console.log(fetchevents[5].date.split('T')[0].split('-')[2]);
-            setAllEvents(fetchevents);
-            setEvents(fetchevents);
-            // console.log(AllEvents);
+            setAllEventsList(fetchevents || []);
+            setEvents(fetchevents || []);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-        finally{
-            setloading(false)
+        finally {
+            setloading(false);
         }
     };
 
     const handleMedium = (e) => {
-        if (e.target.name == '') {
-            setAllEvents(Events);
+        if (e.target.name === '') {
+            setAllEventsList(Events);
             return;
         }
-        let filteredArray = Events.filter((item) => { return item.medium == e.target.name; })
-        setAllEvents(filteredArray);
-
-
-    }
+        let filteredArray = Events.filter((item) => { return item.medium === e.target.name; });
+        setAllEventsList(filteredArray);
+    };
 
 
     useEffect(() => {
@@ -59,7 +50,7 @@ const AllEvents = () => {
         setActiveButton(e.target.name);
         let filteredArray = Events.filter((item) => { return item.category == e.target.name; }
         )
-        setAllEvents(filteredArray);
+        setAllEventsList(filteredArray);
         console.log(filteredArray);
         // console.log(data)
     };
@@ -91,7 +82,7 @@ const AllEvents = () => {
                 {/*filter portion  */}
                 <div className="p-6 border-b flex flex-wrap gap-4 mb-8 items-center justify-start">
                     <button onClick={() => {
-                        setAllEvents(Events);
+                        setAllEventsList(Events);
                         setActiveButton("");
                     }
 
@@ -132,34 +123,34 @@ const AllEvents = () => {
 
 
 
-                
-                
-                {loading?
-                <div className="flex justify-center py-4">
-                          <CircleLoader />
-                        </div>:
-                <div className='w-full mx-auto'>
-
-                {AllEvents.length == 0 && <div className='w-full mx-auto text-center'>No Events to Show</div>}
-                    <div
-                        // className='flex flex-wrap gap-4 w-full mx-auto text-center justify-center items-center max-w-[1540px]'
-                        className="max-w-[1540px] gap-2 grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300"
-                    >
-
-                        {AllEvents.reverse().map((e, index) => {
-                            return <div key={index} className='w-full flex justify-center'> <a href={`/${e.title}`}>
-                                <Card img={e.img} isPaid={e.isPaid} category={e.category} mon={e.month} title={e.title} date={e.date} description={e.description} time={e.time} medium={e.medium} venue={e.venue} />
-                            </a>
-                            </div>
-
-                        })}
 
 
+                {loading ?
+                    <div className="flex justify-center py-4">
+                        <CircleLoader />
+                    </div> :
+                    <div className='w-full mx-auto'>
+
+                        {allEventsList.length == 0 && <div className='w-full mx-auto text-center'>No Events to Show</div>}
+                        <div
+                            // className='flex flex-wrap gap-4 w-full mx-auto text-center justify-center items-center max-w-[1540px]'
+                            className="max-w-[1540px] gap-2 grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300"
+                        >
+
+                            {[...allEventsList].reverse().map((e, index) => {
+                                return <div key={index} className='w-full flex justify-center'> <a href={`/${e.title}`}>
+                                    <Card img={e.img} isPaid={e.isPaid} isExclusive={e.isExclusive} category={e.category} mon={e.month} title={e.title} date={e.date} description={e.description} time={e.time} medium={e.medium} venue={e.venue} />
+                                </a>
+                                </div>
+
+                            })}
 
 
 
-                    </div>
-                </div>}
+
+
+                        </div>
+                    </div>}
 
             </main>
 

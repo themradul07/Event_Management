@@ -1,0 +1,55 @@
+{
+  "insufficient_funds": {
+    "actions": [
+      { "type": "nudge", "channel": "whatsapp", "delay": "1m", "message_type": "hinglish" },
+      { "type": "nudge", "channel": "vapi", "delay": "2m", "message_type": "english" }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "card_expired": {
+    "actions": [
+      { "type": "nudge", "channel": "email", "delay": "1m", "message_type": "english", "include_update_link": true },
+      { "type": "nudge", "channel": "vapi", "delay": "2m", "message_type": "english", "include_update_link": true }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "bank_timeout": {
+    "actions": [
+      { "type": "nudge", "channel": "whatsapp", "delay": "1m", "message_type": "hinglish" },
+      { "type": "nudge", "channel": "vapi", "delay": "2m", "message_type": "english" }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "mandate_revoked": {
+    "actions": [
+      { "type": "nudge", "channel": "email", "delay": "1m", "message_type": "english", "include_reauth_link": true },
+      { "type": "nudge", "channel": "vapi", "delay": "2m", "message_type": "english", "include_reauth_link": true }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "checkout_abandoned": {
+    "actions": [
+      { "type": "nudge", "channel": "whatsapp", "delay": "1m", "message_type": "hinglish" },
+      { "type": "nudge", "channel": "vapi", "delay": "2m", "message_type": "english" }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "invoice_overdue": {
+    "actions": [
+      { "type": "nudge", "channel": "vapi", "delay": "1m", "message_type": "english" },
+      { "type": "cancel", "channel": "system", "delay": "2m" }
+    ],
+    "max_retries": 0,
+    "max_nudges": 2
+  },
+  "user_cancelled": {
+    "actions": [],
+    "max_retries": 0,
+    "max_nudges": 0
+  }
+}

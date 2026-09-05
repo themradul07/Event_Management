@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-const Card = ({ title, description, img, category, mon, date, time, medium, venue, isPaid }) => {
+const Card = ({ title, description, img, category, mon, date, time, medium, venue, isPaid, isExclusive }) => {
     // const datemodify = date.split('T')[0].split('-')[2];
     const [sdate, setsdate] = useState("");
     const [Smonth, setSmonth] = useState("");
@@ -80,7 +80,7 @@ const Card = ({ title, description, img, category, mon, date, time, medium, venu
                 <img src={img} className="object-cover bg-purple-300 w-full h-full" alt="Customer Validation Event" />
             </div>
                 <div className="absolute p-2  w-full flex justify-between items-start mt-0">
-                    <div className='flex gap-2'> 
+                    <div className='flex gap-2 flex-wrap'> 
 
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-500">
                         <i className="fas fa-users mr-1"></i>{category}
@@ -88,6 +88,11 @@ const Card = ({ title, description, img, category, mon, date, time, medium, venu
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-500">
                         {isPaid?"Paid":"Free"}
                     </span>
+                    {isExclusive && (
+                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 border border-yellow-300">
+                             👑 Exclusive
+                         </span>
+                     )}
                     </div>
                     <div className="text-right">
                         <div className="text-sm font-semibold text-purple-500">{Smonth}</div>

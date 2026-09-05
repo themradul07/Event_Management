@@ -4,10 +4,16 @@ import Questions from '../components/Question'
 import Footer from '../components/Footer'
 import Background from '../components/ui/Background'
 import { Link, Navigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 const MainPage = () => {
     return (
-        <div className='max-w-full mx-auto '>
+        <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className='max-w-full mx-auto '
+        >
             <div className='relative overflow-x-hidden'>
                 <Background bgfrom='from-violet-500' bgto='to-purple-400'>
                     
@@ -70,7 +76,7 @@ const MainPage = () => {
 
 
 
-        </div>
+        </motion.div>
     )
 }
 

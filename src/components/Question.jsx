@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Questions = () => {
   return (
     <div
@@ -41,7 +39,7 @@ const Questions = () => {
                                 </svg>
                             </span>
                     </summary>
-                    <p className="group-open:animate-fadeIn mt-3 text-neutral-600">To register, sign up using your BIET Jhansi email ID. After signing up, click on the "Explore" button, select the event you’re interested in, and fill in the required details to complete your registration.
+                    <p className="group-open:animate-fadeIn mt-3 text-neutral-600">To register, sign up using your BIET Jhansi email ID. After signing up, click on the &quot;Explore&quot; button, select the event you’re interested in, and fill in the required details to complete your registration.
                     </p>
                 </details>
             </div>

@@ -1,44 +1,30 @@
-import React from "react";
 import Card from "../components/Card";
 import { Councildata } from "../../data";
-import { useState ,useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { apiFetch } from "../utils/api";
 
 const LiterarySubCouncil = ({ q }) => {
   const [AllEvents, setAllEvents] = useState([]);
 
-  const getEvents = async () => {
+  const getEvents = useCallback(async () => {
     try {
-      const fetchingevents = await fetch("https://event-management-7ifl.onrender.com/", { credentials: "include" });
+      const fetchingevents = await apiFetch("/");
       const fetchevents = await fetchingevents.json();
 
-      // console.log(fetchevents[5].date.split('T')[0].split('-')[2]);
-      setAllEvents(fetchevents);
-      
-      // console.log(AllEvents);
-      console.log("value:",q)
-      console.log(fetchevents);
-      let filteredArray = fetchevents.filter((item) => { return item.category == q }
-      )
+      let filteredArray = (fetchevents || []).filter((item) => { return item.category === q; });
       setAllEvents(filteredArray);
-      console.log(filteredArray);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
-
-  
+  }, [q]);
 
   useEffect(() => {
     getEvents();
-    
-    
+  }, [getEvents]);
 
 
-  }, []);
 
-  
 
-  
 
   const data = Councildata.filter((e) => {
     return e.category == q;
@@ -111,7 +97,7 @@ const LiterarySubCouncil = ({ q }) => {
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Our Team</h2>
             <div className="grid md:grid-cols-4 gap-8">
-              {q==="Literary"?[
+              {q === "Literary" ? [
                 { name: "Ekta Pandey", role: "Officer-In Charge", img: "ek.jpeg" },
                 { name: "Abhishek Pratap Singh (ECE)", role: "Secretary", img: "ab.jpg" },
                 { name: "Anushka Jaiswal (CSE)", role: "Secretary", img: "an.jpg" },
@@ -123,7 +109,7 @@ const LiterarySubCouncil = ({ q }) => {
                   <h3 className="text-xl font-bold mb-1 text-gray-900">{member.name}</h3>
                   <p className="text-gray-600">{member.role}</p>
                 </div>
-              )):[
+              )) : [
                 { name: "Person 1", role: "Officer-In Charge", img: "pfp.png" },
                 { name: "Person 2", role: "Secretary", img: "pfp.png" },
                 { name: "Person 3", role: "Secretary", img: "pfp.png" },

@@ -1,24 +1,55 @@
 const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb+srv://gandhisir80:KvcMYx9UsfbiqD6B@cluster0.tmfcp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-// require('dotenv').config();
-// const uri = process.env.MONGO_URI;
-// const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
-// mongoose.connect(uri, clientOptions);
-
-const userSchema = mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-    participated: [],
-    isAdmin : Boolean ,
-    isVerified:{
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    participated: {
+        type: Array,
+        default: [],
+    },
+    isAdmin: {
         type: Boolean,
-        default:false
+        default: false,
     },
-    verificationCode:{
-        type:String
+    isVerified: {
+        type: Boolean,
+        default: false,
     },
-},{timestamps:true});
+    verificationCode: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    isMember: {
+        type: Boolean,
+        default: false,
+    },
+    membershipPlan: {
+        type: String,
+        enum: ['none', 'monthly', 'quarterly', 'yearly', 'corporate_wellness'],
+        default: 'none',
+    },
+    membershipExpiresAt: {
+        type: Date,
+    },
+    cardExpiresAt: {
+        type: Date,
+    },
+    lastLoginAt: {
+        type: Date,
+    },
+}, { timestamps: true });
 
 module.exports = mongoose.model("user", userSchema);

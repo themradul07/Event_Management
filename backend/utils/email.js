@@ -1,3 +1,6 @@
+const nodemailer = require("nodemailer");
+const logger = require("./logger");
+
 const Verification_email_template = `<!DOCTYPE html>
 <html>
 <head>
@@ -51,12 +54,9 @@ const Verification_email_template = `<!DOCTYPE html>
         <p class="footer">Best regards,<br><strong>The Biethub Team</strong><br><a href="#">Biethub Website</a></p>
     </div>
 </body>
-</html>`
+</html>`;
 
-
-
-
-const Welcome_email_template =`<!DOCTYPE html>
+const Welcome_email_template = `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -98,9 +98,7 @@ const Welcome_email_template =`<!DOCTYPE html>
         <p class="footer">Best regards,<br><strong>The Biethub Team</strong><br><a href="#">Biethub Website</a></p>
     </div>
 </body>
-</html>
-
-`
+</html>`;
 
 const Event_alert_template = `<!DOCTYPE html>
 <html lang="en">
@@ -141,7 +139,7 @@ const Event_alert_template = `<!DOCTYPE html>
     <div class="container">
         <h1>🚀 BIET Hub Event Alert! 🎉</h1>
         <h2 class="highlight">🔔 Event Name: [Enter Event Name]</h2>
-        <p>📅 <strong>Date</strong> [Enter Date & Time]</p>
+        <p>📅 <strong>Date:</strong> [Enter Date & Time]</p>
         <p>📍 <strong>Location:</strong> [Enter Venue or Online Link]</p>
        
         <h2>📞 Contact for Queries:</h2>
@@ -150,78 +148,92 @@ const Event_alert_template = `<!DOCTYPE html>
         <p><strong>Don't miss out on this exciting opportunity! Stay tuned for more updates. 🚀</strong></p>
     </div>
 </body>
-</html>
+</html>`;
 
-`
-
-import nodemailer from "nodemailer"
-import dotenv from "dotenv";
-dotenv.config()
 const pass = process.env.EMPASS;
 
- const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // true for port 465, false for other ports
+const transporter = nodemailer.createTransport({
+    service: "gmail",
     auth: {
-        user: "mradulgandhi18@gmail.com",
-        pass: pass ,
+        user: "energizer1808@gmail.com",
+        pass: pass,
     },
 });
 
-export const SendVerificationCode = async (email, verificationCode , username) => {
+// Verify connection configuration on startup
+transporter.verify((error, success) => {
+    if (error) {
+        logger.error("Nodemailer SMTP transporter verification failed: %o", error);
+    } else {
+        logger.info("Nodemailer SMTP transporter verified successfully. Ready to send emails.");
+    }
+});
+
+const SendVerificationCode = async (email, verificationCode, username) => {
     try {
-
         const response = await transporter.sendMail({
-            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: "Verify Your Email ✔", // Subject line
-            text: "Verify Your Email", // plain text body
-            html: Verification_email_template.replace("[XXXXXX]", verificationCode).replace("[User's Name]" ,username ) // html body
+            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>',
+            to: email,
+            subject: "Verify Your Email ✔",
+            text: "Verify Your Email",
+            html: Verification_email_template.replace("[XXXXXX]", verificationCode).replace("[User's Name]", username),
         });
-
-        console.log("Message sent: %s", info);
+        logger.info(`Verification email sent to: ${email}`);
     } catch (error) {
+        logger.error(`Error sending verification email to ${email}: %o`, error);
+    }
+};
 
-        console.log(error)
-
-    } 
-}
-
-export const WelcomeEmail = async (email,  username) => {
+const WelcomeEmail = async (email, username) => {
     try {
-
         const response = await transporter.sendMail({
-            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: "Email Verified Successfully ✔", // Subject line
-            text: "Welcome to BietHub", // plain text body
-            html: Welcome_email_template.replace("[User's Name]", username)// html body
+            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>',
+            to: email,
+            subject: "Email Verified Successfully ✔",
+            text: "Welcome to BietHub",
+            html: Welcome_email_template.replace("[User's Name]", username),
         });
-
-        console.log("Message sent: %s", info);
+        logger.info(`Welcome email sent to: ${email}`);
     } catch (error) {
+        logger.error(`Error sending welcome email to ${email}: %o`, error);
+    }
+};
 
-        console.log(error)
-
-    } 
-}
-
-export const EventAlert = async (email, eventname, date, location) => {
+const EventAlert = async (email, eventname, date, location) => {
     try {
-
         const response = await transporter.sendMail({
-            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: "Event Alert !!", // Subject line
-            text: "New Event Alert......", // plain text body
-            html: Event_alert_template.replace("[Enter Event Name]", eventname).replace("[Enter Date & Time]", date).replace("[Enter Venue or Online Link]", location)// html body
+            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>',
+            to: email,
+            subject: "Event Alert !!",
+            text: "New Event Alert......",
+            html: Event_alert_template.replace("[Enter Event Name]", eventname).replace("[Enter Date & Time]", date).replace("[Enter Venue or Online Link]", location),
         });
-
-        console.log("Message sent: %s", info);
+        logger.info(`Event alert email sent to: ${email}`);
     } catch (error) {
+        logger.error(`Error sending event alert email to ${email}: %o`, error);
+    }
+};
 
-        console.log(error)
+const SendGeneralEmail = async (email, subject, text, html) => {
+    try {
+        const response = await transporter.sendMail({
+            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>',
+            to: email,
+            subject: subject,
+            text: text,
+            html: html || `<p>${text}</p>`,
+        });
+        logger.info(`General email sent to: ${email}`);
+        return response;
+    } catch (error) {
+        logger.error(`Error sending general email to ${email}: %o`, error);
+        throw error;
+    }
+};
 
-    } 
-}
+module.exports = {
+    SendVerificationCode,
+    WelcomeEmail,
+    EventAlert,
+    SendGeneralEmail,
+};

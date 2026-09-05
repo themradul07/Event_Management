@@ -1,13 +1,9 @@
-import React from 'react'
+import Background from '../components/ui/Background';
+import { InfiniteSlider } from '../components/ui/Infinitesliding';
+import Card from '../components/ui/Card';
+import { CarouselCard } from '../components/ui/CarouselCard';
 
-import Background from '../components/ui/Background'
-import { InfiniteSlider } from '../components/ui/Infinitesliding'
-import Card from '../components/ui/Card'
-import { CarouselCard } from '../components/ui/CarouselCard'
-import EventCard from '../components/EventCard'
-import { Link } from 'react-router-dom'
-
-const Cellspage = ({title , desc}) => {
+const Cellspage = ({ title }) => {
     return (
         <div>
 

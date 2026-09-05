@@ -1,26 +1,17 @@
-const cloudinary = require("cloudinary").v2;
-const dotenv =require('dotenv');
-dotenv.config();
-          
-cloudinary.config({ 
-    cloud_name:"ddyjj570n",
-    api_key: "955836172498119",
-    api_secret: process.env.CLOUD_API_SECRET,
-});
+const cloudinary = require("../config/cloudinary");
+const logger = require("../utils/logger");
 
-const uploadFile = async(filePath) => {
-
+const uploadFile = async (filePath) => {
     try {
-        
         const result = await cloudinary.uploader.upload(filePath);
-        console.log(result)
+        logger.info(`Cloudinary Upload Successful: ${result.secure_url}`);
         return result;
     } catch (error) {
-        console.log(error.message);
+        logger.error(`Cloudinary upload failed: ${error.message}`);
+        throw error;
     }
-
-}
+};
 
 module.exports = {
     uploadFile
-}
+};
