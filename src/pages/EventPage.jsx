@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../utils/api";
+import NotFound from "./NotFound";
 
 const EventPage = () => {
     const { id } = useParams();
@@ -12,6 +13,8 @@ const EventPage = () => {
     const [Data, setData] = useState({});
     const [isRegister, setIsRegister] = useState(false);
     const [isExpired, setIsExpired] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
     const isRegistered = useCallback(async () => {
         if (!id) return;
@@ -26,14 +29,21 @@ const EventPage = () => {
 
     // Getting the event data
     const getdata = useCallback(async (val) => {
-        if (!val) return;
+        if (!val) {
+            setNotFound(true);
+            setLoading(false);
+            return;
+        }
+        setLoading(true);
+        setNotFound(false);
         try {
             const cleanVal = decodeURIComponent(val).trim();
             let response = await apiFetch(`/event/${encodeURIComponent(cleanVal)}`);
             if (!response.ok) {
                 if (response.status === 404) {
-                    toast.error("Event not found");
+                    setNotFound(true);
                 }
+                setLoading(false);
                 return;
             }
 
@@ -44,10 +54,19 @@ const EventPage = () => {
             }
 
             const eventObj = Array.isArray(jsonData) ? jsonData[0] || {} : jsonData;
+            if (!eventObj || !eventObj.title) {
+                setNotFound(true);
+                setLoading(false);
+                return;
+            }
+
             setData(eventObj);
             setParticipantArr(eventObj.participants || []);
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching data:", error);
+            setNotFound(true);
+            setLoading(false);
         }
     }, []);
 
@@ -185,6 +204,19 @@ const EventPage = () => {
 
 
 
+
+    if (loading) {
+        return (
+            <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50">
+                <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                <p className="mt-4 text-purple-800 font-medium text-sm">Loading event details...</p>
+            </div>
+        );
+    }
+
+    if (notFound) {
+        return <NotFound />;
+    }
 
     return (
         <main className="">

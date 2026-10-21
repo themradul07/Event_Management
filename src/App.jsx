@@ -83,6 +83,8 @@ const App = () => {
         {/* Event Detail Routes */}
         <Route path="/event/:id" element={<EventPage />} />
         <Route path="/events/:id" element={<EventPage />} />
+        {/* Support direct /:id (e.g. legacy/bookmark links like /Product%20Design%20Challenge) */}
+        <Route path="/:id" element={<EventPage />} />
 
         {/* Fallback 404 Route */}
         <Route path="*" element={<NotFound />} />
