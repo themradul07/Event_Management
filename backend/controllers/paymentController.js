@@ -8,8 +8,8 @@ const Order = require('../models/Order');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
 const razorpayInstance = new Razorpay({
-    key_id: RAZORPAY_ID_KEY,
-    key_secret: RAZORPAY_SECRET_KEY,
+    key_id: RAZORPAY_ID_KEY || 'rzp_test_placeholder',
+    key_secret: RAZORPAY_SECRET_KEY || 'placeholder_secret',
 });
 
 const createOrder = async (req, res) => {

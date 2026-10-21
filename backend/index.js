@@ -1,8 +1,18 @@
+// Compatibility polyfill for libraries using deprecated SlowBuffer (removed in Node 24+)
+const buffer = require('buffer');
+if (!buffer.SlowBuffer) {
+    buffer.SlowBuffer = buffer.Buffer;
+}
+if (typeof global !== 'undefined' && !global.SlowBuffer) {
+    global.SlowBuffer = buffer.Buffer;
+}
+
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 const morgan = require('morgan');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
