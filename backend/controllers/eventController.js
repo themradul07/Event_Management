@@ -31,10 +31,46 @@ const checkParticipation = async (req, res) => {
     }
 };
 
+const mongoose = require('mongoose');
+
 const getEventByTitle = async (req, res) => {
     try {
-        const events = await EventModel.find({ title: req.params.title });
-        return res.status(200).json(events);
+        const rawParam = req.params.title;
+        if (!rawParam) {
+            return res.status(400).json({ error: "Event identifier is required" });
+        }
+
+        const decoded = decodeURIComponent(rawParam).trim();
+        let event = null;
+
+        // Try lookup by MongoDB _id first if valid ObjectId
+        if (mongoose.Types.ObjectId.isValid(decoded) && decoded.length === 24) {
+            event = await EventModel.findById(decoded);
+        }
+
+        // Lookup by exact or case-insensitive title
+        if (!event) {
+            event = await EventModel.findOne({
+                $or: [
+                    { title: decoded },
+                    { title: new RegExp(`^${decoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }
+                ]
+            });
+        }
+
+        // Lookup by deslugified title (e.g. codecraft-hackathon -> CodeCraft Hackathon)
+        if (!event) {
+            const deslugged = decoded.replace(/-/g, ' ');
+            event = await EventModel.findOne({
+                title: new RegExp(`^${deslugged.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i')
+            });
+        }
+
+        if (!event) {
+            return res.status(404).json({ error: "Event not found" });
+        }
+
+        return res.status(200).json([event]);
     } catch (error) {
         logger.error(`Error getting event details for title ${req.params.title}: %o`, error);
         return res.status(500).json({ error: "Server error getting event details" });

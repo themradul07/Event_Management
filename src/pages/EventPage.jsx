@@ -28,14 +28,16 @@ const EventPage = () => {
     const getdata = useCallback(async (val) => {
         if (!val) return;
         try {
-            let response = await apiFetch(`/event/${val}`);
-            let jsonData = await response.json();
-
-            if (jsonData.value) {
-                toast.error("Login First");
-                navigate("/login");
+            const cleanVal = decodeURIComponent(val).trim();
+            let response = await apiFetch(`/event/${encodeURIComponent(cleanVal)}`);
+            if (!response.ok) {
+                if (response.status === 404) {
+                    toast.error("Event not found");
+                }
                 return;
             }
+
+            let jsonData = await response.json();
 
             if (Array.isArray(jsonData) && jsonData.length > 0 && jsonData[0].date) {
                 jsonData[0].date = jsonData[0].date.split('T')[0];
@@ -46,9 +48,8 @@ const EventPage = () => {
             setParticipantArr(eventObj.participants || []);
         } catch (error) {
             console.error("Error fetching data:", error);
-            toast.error("Something went wrong. Please try again.");
         }
-    }, [navigate]);
+    }, []);
 
     // Check if the event is expired
     useEffect(() => {
@@ -149,9 +150,8 @@ const EventPage = () => {
                     modal: {
                         ondismiss: async function () {
                             try {
-                                await fetch("http://localhost:3000/payforevent/pay/abandon", {
+                                await apiFetch("/payforevent/pay/abandon", {
                                     method: "POST",
-                                    credentials: "include",
                                     headers: {
                                         "Content-Type": "application/json",
                                     },

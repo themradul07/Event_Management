@@ -7,9 +7,9 @@ const upload = require('../middleware/multer');
 // Public event routes
 router.get('/', eventController.getEvents);
 
-// Authenticated event routes
+// Event routes (publicly viewable, registration requires auth)
+router.get('/event/:title', eventController.getEventByTitle);
 router.get('/register/part/:event', isLoggedIn, eventController.checkParticipation);
-router.get('/event/:title', isLoggedIn, eventController.getEventByTitle);
 router.post('/register/:title', isLoggedIn, eventController.registerForEvent);
 
 // Event creation route (multipart/form-data upload - requires admin)

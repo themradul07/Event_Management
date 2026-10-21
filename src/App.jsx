@@ -80,8 +80,9 @@ const App = () => {
         <Route path="/terms" element={<Policies q={"terms"} />} />
         <Route path="/contactus" element={<AboutUs />} />
 
-        {/* Event Detail Route */}
+        {/* Event Detail Routes */}
         <Route path="/event/:id" element={<EventPage />} />
+        <Route path="/events/:id" element={<EventPage />} />
 
         {/* Fallback 404 Route */}
         <Route path="*" element={<NotFound />} />
