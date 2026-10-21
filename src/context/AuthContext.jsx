@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { apiFetch } from '../utils/api';
+import { apiFetch, removeAuthToken } from '../utils/api';
 
 const AuthContext = createContext(null);
 
@@ -28,9 +28,12 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await apiFetch("/logout");
-            refetch(); // Refetch will clear session state
         } catch (err) {
             console.error("Logout failed:", err);
+        } finally {
+            removeAuthToken();
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            refetch(); // Refetch will clear session state
         }
     };
 

@@ -231,9 +231,53 @@ const SendGeneralEmail = async (email, subject, text, html) => {
     }
 };
 
+const Reset_password_template = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BietHub Password Reset</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f3e8ff; text-align: center; padding: 20px; }
+        .container { background: #6a0dad; color: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
+        .otp { font-size: 26px; font-weight: bold; background: white; color: #6a0dad; display: inline-block; padding: 10px 20px; border-radius: 5px; letter-spacing: 4px; margin: 15px 0; }
+        .footer { margin-top: 20px; font-size: 12px; color: #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Password Reset Request</h2>
+        <p>Dear [User's Name],</p>
+        <p>We received a request to reset your password for your <strong>BietHub</strong> account. Use the code below to reset your password:</p>
+        <p class="otp">[XXXXXX]</p>
+        <p>This code is valid for <strong>15 minutes</strong>. If you did not request this, please ignore this email.</p>
+        <p class="footer">Best regards,<br><strong>The BietHub Team</strong></p>
+    </div>
+</body>
+</html>`;
+
+const SendPasswordResetCode = async (email, resetCode, username) => {
+    try {
+        const response = await transporter.sendMail({
+            from: '"BietHUB 👻" <mradulgandhi18@gmail.com>',
+            to: email,
+            subject: "BietHub Password Reset Code ✔",
+            text: `Your password reset code is: ${resetCode}`,
+            html: Reset_password_template.replace("[XXXXXX]", resetCode).replace("[User's Name]", username || "Member"),
+        });
+        logger.info(`Password reset email sent to: ${email}`);
+        return response;
+    } catch (error) {
+        logger.error(`Error sending password reset email to ${email}: %o`, error);
+        return null;
+    }
+};
+
 module.exports = {
     SendVerificationCode,
     WelcomeEmail,
     EventAlert,
     SendGeneralEmail,
+    SendPasswordResetCode,
 };
+

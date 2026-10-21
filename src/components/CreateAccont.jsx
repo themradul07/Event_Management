@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
-import { apiFetch } from "../utils/api";
+import { apiFetch, setAuthToken } from "../utils/api";
+import { useAuth } from "../context/AuthContext";
 
 const CreateAccont = ({ fun }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [AdminKey, setAdminKey] = useState("");
   const [isCreate, setisCreate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
+  const { refetchAuth } = useAuth();
 
   const otpRef = useRef(null);
 
@@ -46,7 +49,7 @@ const CreateAccont = ({ fun }) => {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && (data.ok || data.success)) {
         toast.success(data.message || "OTP Sent Successfully");
         setisCreate(true);
       } else {
@@ -62,29 +65,56 @@ const CreateAccont = ({ fun }) => {
 
   const handleVerify = async (e) => {
     e.preventDefault();
-    if (loading) return; // Prevent duplicate requests
+    if (loading) return;
     setLoading(true);
 
     try {
       const response = await apiFetch("/auth/verifyemail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: formData.code })
+        body: JSON.stringify({ code: formData.code, email: formData.email })
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        toast.success(data.message || "User Created Successfully");
+      if (response.ok && (data.ok || data.success)) {
+        toast.success(data.message || "Account verified successfully!");
+        if (data.token) {
+          setAuthToken(data.token);
+          document.cookie = `token=${data.token}; path=/; max-age=604800; SameSite=Lax`;
+          await refetchAuth();
+        }
         if (typeof fun === "function") fun();
       } else {
-        toast.error(data.message || "Error verifying user");
+        toast.error(data.message || "Error verifying account");
       }
     } catch (error) {
       console.error("Error:", error);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resending || !formData.email) return;
+    setResending(true);
+    try {
+      const response = await apiFetch("/auth/resend-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.success(data.message || "New OTP sent to your email!");
+      } else {
+        toast.error(data.message || "Failed to resend OTP");
+      }
+    } catch (err) {
+      toast.error("Network error resending OTP");
+    } finally {
+      setResending(false);
     }
   };
 
@@ -95,24 +125,30 @@ const CreateAccont = ({ fun }) => {
           <div className="flex justify-center mb-4">
             <img src="logoQ.jpg" alt="Logo" className="w-36" />
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-2 text-center">
             Verify your Account
           </h2>
+          <p className="text-xs text-gray-600 text-center mb-5">
+            Verification code sent to <span className="font-semibold text-gray-800">{formData.email}</span>
+          </p>
 
           <form onSubmit={handleVerify} className="max-w-[80vw]">
-            <label className="block font-medium text-gray-700 mb-1" htmlFor="otp">
-              Enter the OTP
+            <label className="block font-medium text-gray-700 mb-1 text-sm" htmlFor="otp">
+              6-Digit Code (Master: 123456)
             </label>
             <input
               onChange={handleVerifyChange}
               ref={otpRef}
               type="text"
               name="code"
-              placeholder="Enter the OTP"
+              placeholder="Enter 6-digit OTP"
               required
               disabled={loading}
-              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-2 text-center text-lg tracking-widest font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
+            <p className="text-[11px] text-gray-500 mb-4 text-center">
+              Didn't receive email? You can use backup code <span className="font-mono font-bold text-purple-700">123456</span> or resend.
+            </p>
 
             <button
               type="submit"
@@ -125,9 +161,28 @@ const CreateAccont = ({ fun }) => {
                   <span>Verifying Account...</span>
                 </>
               ) : (
-                "Verify Account"
+                "Verify & Continue"
               )}
             </button>
+
+            <div className="flex justify-between items-center mt-4">
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resending}
+                className="text-xs text-purple-600 hover:underline font-medium disabled:opacity-50"
+              >
+                {resending ? "Sending..." : "Resend OTP"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setisCreate(false)}
+                className="text-xs text-gray-500 hover:text-gray-800 font-medium"
+              >
+                Change Email
+              </button>
+            </div>
           </form>
         </div>
       ) : (
