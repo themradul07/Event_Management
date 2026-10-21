@@ -5,7 +5,9 @@ const UserModel = require('../models/User');
 const JWT_SECRET = process.env.JWT_SECRET || 'shhhhh';
 
 function isLoggedIn(req, res, next) {
-    const token = req.cookies?.token;
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    const token = req.cookies?.token || bearerToken;
     if (!token) {
         return res.status(401).json({ success: false, value: false, error: 'Unauthorized: No token provided' });
     }

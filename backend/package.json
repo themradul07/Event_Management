@@ -4,11 +4,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "eval": "node eval/evalHarness.js",
     "batch": "node eval/batchRunner.js",
     "tunnel": "node scripts/ngrok.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": [],
   "author": "",

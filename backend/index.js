@@ -17,6 +17,9 @@ const { isLoggedIn } = require('./middleware/auth');
 
 const app = express();
 
+// Trust proxy for reverse proxy environments (Render, Railway, Heroku, Cloudflare)
+app.set('trust proxy', 1);
+
 // Database connection
 connectDB();
 
@@ -25,6 +28,18 @@ const morganStream = {
     write: (message) => logger.info(message.trim())
 };
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms', { stream: morganStream }));
+
+// Enable full CORS for all origins (*) with credentials and preflight support
+const corsOptions = {
+    origin: true, // Dynamically reflects request origin (allows all origins '*' while preserving credentials/cookies)
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Cookie', 'Origin'],
+    exposedHeaders: ['Set-Cookie']
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Security Headers
 app.use((req, res, next) => {
@@ -39,27 +54,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
-    : [
-        "https://eventmanagementdevloop.netlify.app",
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "https://event-management-dusky-zeta.vercel.app"
-    ];
-
-app.use(
-    cors({
-        origin: function (origin, callback) {
-            if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(null, true); // Fallback for dev/preview environments
-            }
-        },
-        credentials: true
-    })
-);
+// Health Check Endpoint (used by cloud host health monitors: Render, Railway, AWS, etc.)
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        service: 'BietHub API',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
 
 // Serve static public assets
 app.use(express.static(path.join(__dirname, "public")));
@@ -92,11 +95,22 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, '0.0.0.0', () => {
     logger.info(`Server is running on port ${PORT}`);
     
     // Start Outbox Polling Event Bus Worker
     const eventBusWorker = require('./workers/eventBusWorker');
     eventBusWorker.startPolling();
 });
+
+// Graceful shutdown handling for container deployments (Render, Docker, Kubernetes)
+process.on('SIGTERM', () => {
+    logger.info('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        logger.info('HTTP server closed');
+        process.exit(0);
+    });
+});
+
+module.exports = app;
