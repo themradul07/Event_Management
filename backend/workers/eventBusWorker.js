@@ -141,16 +141,39 @@ const pollPlaybookScheduler = async () => {
     }
 };
 
+let isPollingOutbox = false;
+let isPollingScheduler = false;
+
+const safePollOutbox = async () => {
+    if (isPollingOutbox) return;
+    isPollingOutbox = true;
+    try {
+        await pollOutbox();
+    } finally {
+        isPollingOutbox = false;
+    }
+};
+
+const safePollScheduler = async () => {
+    if (isPollingScheduler) return;
+    isPollingScheduler = true;
+    try {
+        await pollPlaybookScheduler();
+    } finally {
+        isPollingScheduler = false;
+    }
+};
+
 const startPolling = () => {
     logger.info("Outbox transactional event bus polling worker started (running every 2 seconds).");
-    setInterval(pollOutbox, 2000);
+    setInterval(safePollOutbox, 2000);
 
     logger.info("Playbook scheduler polling worker started (running every 5 seconds).");
-    setInterval(pollPlaybookScheduler, 5000);
+    setInterval(safePollScheduler, 5000);
 };
 
 module.exports = {
     startPolling,
-    pollOutbox,
-    pollPlaybookScheduler
+    pollOutbox: safePollOutbox,
+    pollPlaybookScheduler: safePollScheduler
 };

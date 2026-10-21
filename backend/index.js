@@ -11,11 +11,20 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const logger = require('./utils/logger');
 const connectDB = require('./config/db');
+
+// Catch any unhandled promise rejections or exceptions to prevent process crashing in production
+process.on('unhandledRejection', (reason, promise) => {
+    logger.error('Unhandled Promise Rejection: %o', reason);
+});
+process.on('uncaughtException', (err) => {
+    logger.error('Uncaught Exception: %o', err);
+});
 
 // Import routers
 const authRoutes = require('./routes/authRoutes');
@@ -29,6 +38,9 @@ const app = express();
 
 // Trust proxy for reverse proxy environments (Render, Railway, Heroku, Cloudflare)
 app.set('trust proxy', 1);
+
+// Response compression for high-performance payload delivery
+app.use(compression());
 
 // Database connection
 connectDB();

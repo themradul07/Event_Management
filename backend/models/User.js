@@ -28,12 +28,14 @@ const userSchema = new mongoose.Schema({
     },
     verificationCode: {
         type: String,
+        index: { sparse: true },
     },
     verificationCodeExpires: {
         type: Date,
     },
     resetPasswordCode: {
         type: String,
+        index: { sparse: true },
     },
     resetPasswordExpires: {
         type: Date,
